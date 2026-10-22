@@ -5,7 +5,8 @@ import requests
 
 app = Flask(__name__)
 
-URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2026-03-01"
+# Vi sätter en tidsgräns och minmagnitude för att inte överskrida USGS API-gränsen på 20 000 händelser (Error 400).
+URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2026-09-01&minmagnitude=2.5"
 
 @app.route('/')
 def index():
