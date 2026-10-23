@@ -11,7 +11,8 @@ app = Flask(__name__)
 # URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_date}&minmagnitude=2.5"
 
 # short test url:
-URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={date.today()}&minmagnitude=2.5"
+URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2026-10-22&minmagnitude=2.5"
+# URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={date.today()}&minmagnitude=2.5"
 
 @app.route('/')
 def index():
@@ -33,4 +34,13 @@ def timeline():
         })
     df = pd.DataFrame(table_data)
     html = df.to_html(classes="table table-striped", index=False)
+
+    table_2 = df.groupby("Day").agg(
+        Count=("Day", "size"),
+        AverageMagnitude =("Magnitude", "mean"),
+        MaxMagnitude = ("Magnitude", "max")
+    )
+    print(table_2)
+
+    
     return render_template("timeline.html", timeline=html)
