@@ -60,9 +60,9 @@ Flask-applikation för visning och analys av jordskälvsdata från USGS API.
 ## Routar & Uppgifter
 
 * `/` (HEM): Hemsida
-* `/1` (Route 1): Magnitud & djup (Oscar)
-* `/2` (Route 2): Geografisk karta över jordbävningar (Gabriel)
-* `/3` (Route 3): Tidslinje & trender (Eliska)
+* `/magnitude` (Route 1): Magnitud & djup (Oscar)
+* `/map` (Route 2): Geografisk karta över jordbävningar (Gabriel)
+* `/timeline` (Route 3): Tidslinje & trender (Eliska)
 
 
 
