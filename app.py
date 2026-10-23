@@ -39,7 +39,8 @@ def timeline():
         Count=("Day", "size"),
         AverageMagnitude =("Magnitude", "mean"),
         MaxMagnitude = ("Magnitude", "max")
-    )
+    ).reset_index()
+    
     print(table_2)
 
     
