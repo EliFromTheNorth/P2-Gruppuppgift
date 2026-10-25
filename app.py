@@ -54,13 +54,13 @@ def timeline():
     print(f"most shaky days: {highest_average}")
 
     lowest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].min()]
-    print(f"most shaky days: {lowest_average}")
+    print(f"mildest earthquake: {lowest_average}")
 
     min_count = table[table["Count"] == table["Count"].min()]
-    print(f"most shaky days: {min_count}")
+    print(f"least earthquakes: {min_count}")
 
     mildest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].min()]
-    print(f"most shaky days: {mildest_day}")
+    print(f"least shaky days: {mildest_day}")
 
 
 
