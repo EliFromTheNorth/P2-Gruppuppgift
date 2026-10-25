@@ -44,5 +44,27 @@ def timeline():
     
     html = df_2.to_html(classes="table table-striped", index=False)
 
+    max_count = table[table["Count"] == table["Count"].max()]
+    print(f"nejvice bylooooo: {max_count}")
+
+    strongest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].max()]
+    print(f"strooooongeeeeeeeeest: {strongest_day}")
+
+    highest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].max()]
+    print(f"most shaky days: {highest_average}")
+
+    lowest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].min()]
+    print(f"most shaky days: {lowest_average}")
+
+    min_count = table[table["Count"] == table["Count"].min()]
+    print(f"most shaky days: {min_count}")
+
+    mildest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].min()]
+    print(f"most shaky days: {mildest_day}")
+
+
+
+
     
     return render_template("timeline.html", timeline=html)
+
