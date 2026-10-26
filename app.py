@@ -45,26 +45,41 @@ def timeline():
     html = df_2.to_html(classes="table table-striped", index=False)
 
     max_count = table[table["Count"] == table["Count"].max()]
-    print(f"nejvice bylooooo: {max_count}")
-
     strongest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].max()]
-    print(f"strooooongeeeeeeeeest: {strongest_day}")
-
     highest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].max()]
-    print(f"most shaky days: {highest_average}")
-
     lowest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].min()]
-    print(f"mildest earthquake: {lowest_average}")
-
     min_count = table[table["Count"] == table["Count"].min()]
-    print(f"least earthquakes: {min_count}")
-
     mildest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].min()]
-    print(f"least shaky days: {mildest_day}")
+    
+    summary_df = pd.DataFrame({
+        "": [
+            "Max earthquakes per day", 
+            "Min earthquakes per day", 
+            "Strongest earthquake", 
+            "Mildest earthquake", 
+            "Highest day average", 
+            "Lowest day average"
+        ],             
+        "Day": [
+            max_count["Day"].values[0], 
+            min_count["Day"].values[0], 
+            strongest_day["Day"].values[0], 
+            mildest_day["Day"].values[0], 
+            highest_average["Day"].values[0], 
+            lowest_average["Day"].values[0], 
+        ],                
+        "Value": [
+            max_count["Count"].values[0],
+            min_count["Count"].values[0],
+            strongest_day["MaxMagnitude"].values[0],
+            mildest_day["MaxMagnitude"].values[0],
+            highest_average["AverageMagnitude"].values[0],
+            lowest_average["AverageMagnitude"].values[0],
+        ]               
+    })
 
-
-
+    html_2 = summary_df.to_html(classes="table table-striped", index=False)
 
     
-    return render_template("timeline.html", timeline=html)
+    return render_template("timeline.html", timeline=html, summary=html_2)
 
