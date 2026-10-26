@@ -88,12 +88,12 @@ def timeline():
                 summary_values(lowest_average, lowest_average["Day"].values),
             ],
             "Value": [
-                summary_values(max_count, max_count["Count"].values),
-                summary_values(min_count, min_count["Count"].values),
-                summary_values(strongest_day, strongest_day["MaxMagnitude"].values),
-                summary_values(mildest_day, mildest_day["MaxMagnitude"].values),
-                summary_values(highest_average,highest_average["AverageMagnitude"].values),
-                summary_values(lowest_average, lowest_average["AverageMagnitude"].values),
+                max_count["Count"].iloc[0],
+                min_count["Count"].iloc[0],
+                strongest_day["MaxMagnitude"].iloc[0],
+                mildest_day["MaxMagnitude"].iloc[0],
+                highest_average["AverageMagnitude"].iloc[0],
+                lowest_average["AverageMagnitude"].iloc[0],
             ],
         }
     )
