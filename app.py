@@ -146,8 +146,9 @@ def timeline():
          summary_table.append({
             "": e["name"],
             "Day": summary_values(e["filtered_data"]["Day"].values),
-            "Value": e["filtered_data"][e["column"]].iloc[0]
+            "Value": str(int(e["filtered_data"][e["column"]].iloc[0])) if e["column"] == "Count" else str(e["filtered_data"][e["column"]].iloc[0])
          })
+
 
     summary_df = pd.DataFrame(summary_table)
 
