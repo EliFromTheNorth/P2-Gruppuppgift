@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 import pandas as pd
 import requests
 from flask import Flask, render_template
@@ -28,7 +28,7 @@ def timeline():
     for entry in data["features"]:
         e = entry["properties"]
         timestamp = e.get("time", "")
-        event_date = datetime.fromtimestamp(timestamp / 1000)
+        event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
         table_data.append(
             {
                 "Day": event_date.date(),
