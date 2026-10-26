@@ -53,45 +53,82 @@ def timeline():
     df_2 = pd.DataFrame(table)
 
     html = df_2.to_html(classes="table table-striped", index=False)
-
-    max_count = table[table["Count"] == table["Count"].max()]
-    strongest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].max()]
-    highest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].max()]
-    lowest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].min()]
-    min_count = table[table["Count"] == table["Count"].min()]
-    mildest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].min()]
-
+ 
+    # max_count = table[table["Count"] == table["Count"].max()]
+    # strongest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].max()]
+    # highest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].max()]
+    # lowest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].min()]
+    # min_count = table[table["Count"] == table["Count"].min()]
+    # mildest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].min()]
+  
     def summary_values(column):
             return ", ".join(str(e) for e in column)
 
-    summary_df = pd.DataFrame(
-        {
-            "": [
-                "Max earthquakes per day",
-                "Min earthquakes per day",
-                "Strongest earthquake",
-                "Mildest earthquake",
-                "Highest day average",
-                "Lowest day average",
-            ],
-            "Day": [
-                summary_values(max_count["Day"].values),
-                summary_values(min_count["Day"].values),
-                summary_values(strongest_day["Day"].values),
-                summary_values(mildest_day["Day"].values),
-                summary_values(highest_average["Day"].values),
-                summary_values(lowest_average["Day"].values),
-            ],
-            "Value": [
-                max_count["Count"].iloc[0],
-                min_count["Count"].iloc[0],
-                strongest_day["MaxMagnitude"].iloc[0],
-                mildest_day["MaxMagnitude"].iloc[0],
-                highest_average["AverageMagnitude"].iloc[0],
-                lowest_average["AverageMagnitude"].iloc[0],
-            ],
-        }
-    )
+    # summary_df = pd.DataFrame(
+    #     {
+    #         "": [
+    #             "Max earthquakes per day",
+    #             "Min earthquakes per day",
+    #             "Strongest earthquake",
+    #             "Mildest earthquake",
+    #             "Highest day average",
+    #             "Lowest day average",
+    #         ],
+    #         "Day": [
+    #             summary_values(max_count["Day"].values),
+    #             summary_values(min_count["Day"].values),
+    #             summary_values(strongest_day["Day"].values),
+    #             summary_values(mildest_day["Day"].values),
+    #             summary_values(highest_average["Day"].values),
+    #             summary_values(lowest_average["Day"].values),
+    #         ],
+    #         "Value": [
+    #             max_count["Count"].iloc[0],
+    #             min_count["Count"].iloc[0],
+    #             strongest_day["MaxMagnitude"].iloc[0],
+    #             mildest_day["MaxMagnitude"].iloc[0],
+    #             highest_average["AverageMagnitude"].iloc[0],
+    #             lowest_average["AverageMagnitude"].iloc[0],
+    #         ],
+    #     }
+    # )
+
+    summary_rows = [     
+        {"name":"Max earthquakes per day",
+         "filtered_data": table[table["Count"] == table["Count"].max()],
+         "column": "Count"             
+         },
+        {"name":"Min earthquakes per day",
+         "filtered_data": table[table["Count"] == table["Count"].min()],
+         "column": "Count"              
+         },
+        {"name":"Strongest earthquake",
+         "filtered_data": table[table["MaxMagnitude"] == table["MaxMagnitude"].max()],
+         "column": "MaxMagnitude"              
+         },
+        {"name":"Mildest earthquake",
+         "filtered_data": table[table["MaxMagnitude"] == table["MaxMagnitude"].min()],
+         "column": "MaxMagnitude"              
+         },
+        {"name":"Highest day average",
+         "filtered_data": table[table["AverageMagnitude"] == table["AverageMagnitude"].max()],
+         "column": "AverageMagnitude"              
+         },
+        {"name":"Lowest day average",
+         "filtered_data": table[table["AverageMagnitude"] == table["AverageMagnitude"].min()],
+         "column": "AverageMagnitude"              
+         }
+    ]
+
+    summary_table = []
+    for e in summary_rows:
+         summary_table.append({
+            "": e["name"],
+            "Day": summary_values(e["filtered_data"]["Day"].values),
+            "Value": e["filtered_data"][e["column"]].iloc[0]
+         })
+
+    summary_df = pd.DataFrame(summary_table)
 
     html_2 = summary_df.to_html(classes="table table-striped", index=False)
 
