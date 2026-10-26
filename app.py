@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta, timezone
 import pandas as pd
 import requests
 from flask import Flask, render_template
-# import plotly.express as px
+import plotly.express as px
 
 app = Flask(__name__)
 
@@ -53,6 +53,14 @@ def timeline():
     df_2 = pd.DataFrame(table)
 
     html = df_2.to_html(classes="table table-striped", index=False)
+
+    figure = px.bar(
+        table, 
+        x="Day", 
+        y="Count",
+        # labels={"Day": "", "Nervous breakdowns": ""}
+    )
+    chart = figure.to_html(full_html = False, include_plotlyjs="cdn")
  
     # max_count = table[table["Count"] == table["Count"].max()]
     # strongest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].max()]
@@ -132,4 +140,4 @@ def timeline():
 
     html_2 = summary_df.to_html(classes="table table-striped", index=False)
 
-    return render_template("timeline.html", timeline=html, summary=html_2)
+    return render_template("timeline.html", timeline=html, summary=html_2, diagram=chart)
