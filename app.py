@@ -54,13 +54,26 @@ def timeline():
 
     html = df_2.to_html(classes="table table-striped", index=False)
 
-    figure = px.bar(
+    figure_1 = px.bar(
         table, 
         x="Day", 
         y="Count",
-        # labels={"Day": "", "Nervous breakdowns": ""}
     )
-    chart = figure.to_html(full_html = False, include_plotlyjs="cdn")
+    chart_1 = figure_1.to_html(full_html = False, include_plotlyjs="cdn")
+
+    figure_2 = px.bar(
+        table, 
+        x="Day", 
+        y="AverageMagnitude",
+    )
+    chart_2 = figure_2.to_html(full_html = False, include_plotlyjs="cdn")
+
+    figure_3 = px.bar(
+        table, 
+        x="Day", 
+        y="MaxMagnitude",
+    )
+    chart_3 = figure_3.to_html(full_html = False, include_plotlyjs="cdn")
  
     # max_count = table[table["Count"] == table["Count"].max()]
     # strongest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].max()]
@@ -140,4 +153,4 @@ def timeline():
 
     html_2 = summary_df.to_html(classes="table table-striped", index=False)
 
-    return render_template("timeline.html", timeline=html, summary=html_2, diagram=chart)
+    return render_template("timeline.html", timeline=html, summary=html_2, diagram_1=chart_1, diagram_2=chart_2, diagram_3=chart_3 )
