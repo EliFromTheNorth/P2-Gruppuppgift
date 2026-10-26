@@ -50,6 +50,12 @@ def timeline():
     lowest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].min()]
     min_count = table[table["Count"] == table["Count"].min()]
     mildest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].min()]
+
+    def summary_values(values):
+        if len(values) == 1:
+            return values[0]
+        else:
+            ", ".join(str(e) for e in values)
     
     summary_df = pd.DataFrame({
         "": [
@@ -61,20 +67,20 @@ def timeline():
             "Lowest day average"
         ],             
         "Day": [
-            max_count["Day"].values[0], 
-            min_count["Day"].values[0], 
-            strongest_day["Day"].values[0], 
-            mildest_day["Day"].values[0], 
-            highest_average["Day"].values[0], 
-            lowest_average["Day"].values[0], 
+            summary_values(max_count["Day"].values), 
+            summary_values(min_count["Day"].values), 
+            summary_values(strongest_day["Day"].values), 
+            summary_values(mildest_day["Day"].values), 
+            summary_values(highest_average["Day"].values), 
+            summary_values(lowest_average["Day"].values), 
         ],                
         "Value": [
-            max_count["Count"].values[0],
-            min_count["Count"].values[0],
-            strongest_day["MaxMagnitude"].values[0],
-            mildest_day["MaxMagnitude"].values[0],
-            highest_average["AverageMagnitude"].values[0],
-            lowest_average["AverageMagnitude"].values[0],
+            summary_values(max_count["Count"].values),
+            summary_values(min_count["Count"].values),
+            summary_values(strongest_day["MaxMagnitude"].values),
+            summary_values(mildest_day["MaxMagnitude"].values),
+            summary_values(highest_average["AverageMagnitude"].values),
+            summary_values(lowest_average["AverageMagnitude"].values),
         ]               
     })
 
