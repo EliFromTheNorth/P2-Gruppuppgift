@@ -56,18 +56,18 @@ def timeline():
 
     max_count = table[table["Count"] == table["Count"].max()]
     strongest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].max()]
-    highest_average = table[
-        table["AverageMagnitude"] == table["AverageMagnitude"].max()
-    ]
+    highest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].max()]
     lowest_average = table[table["AverageMagnitude"] == table["AverageMagnitude"].min()]
+    print(f"loweeeeeeeeeeeeeeeeeeeeeeeeeeest aveeeeeeeeeeeeefarge: {lowest_average}")
+    print(f"LA length: {len(lowest_average)}")
     min_count = table[table["Count"] == table["Count"].min()]
     mildest_day = table[table["MaxMagnitude"] == table["MaxMagnitude"].min()]
 
-    def summary_values(values):
+    def summary_values(values, column):
         if len(values) == 1:
-            return values[0]
+            return column[0]
         else:
-            ", ".join(str(e) for e in values)
+            return ", ".join(str(e) for e in column)
 
     summary_df = pd.DataFrame(
         {
@@ -80,20 +80,20 @@ def timeline():
                 "Lowest day average",
             ],
             "Day": [
-                summary_values(max_count["Day"].values),
-                summary_values(min_count["Day"].values),
-                summary_values(strongest_day["Day"].values),
-                summary_values(mildest_day["Day"].values),
-                summary_values(highest_average["Day"].values),
-                summary_values(lowest_average["Day"].values),
+                summary_values(max_count, max_count["Day"].values),
+                summary_values(min_count, min_count["Day"].values),
+                summary_values(strongest_day, strongest_day["Day"].values),
+                summary_values(mildest_day, mildest_day["Day"].values),
+                summary_values(highest_average, highest_average["Day"].values),
+                summary_values(lowest_average, lowest_average["Day"].values),
             ],
             "Value": [
-                summary_values(max_count["Count"].values),
-                summary_values(min_count["Count"].values),
-                summary_values(strongest_day["MaxMagnitude"].values),
-                summary_values(mildest_day["MaxMagnitude"].values),
-                summary_values(highest_average["AverageMagnitude"].values),
-                summary_values(lowest_average["AverageMagnitude"].values),
+                summary_values(max_count, max_count["Count"].values),
+                summary_values(min_count, min_count["Count"].values),
+                summary_values(strongest_day, strongest_day["MaxMagnitude"].values),
+                summary_values(mildest_day, mildest_day["MaxMagnitude"].values),
+                summary_values(highest_average,highest_average["AverageMagnitude"].values),
+                summary_values(lowest_average, lowest_average["AverageMagnitude"].values),
             ],
         }
     )
