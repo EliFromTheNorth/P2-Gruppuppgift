@@ -1,4 +1,4 @@
-from datetime import UTC, date, datetime, timedelta
+from datetime import timezone, date, datetime, timedelta
 
 import pandas as pd
 import plotly.express as px
@@ -29,7 +29,7 @@ def timeline():
     for entry in data["features"]:
         e = entry["properties"]
         timestamp = e.get("time", "")
-        event_date = datetime.fromtimestamp(timestamp / 1000, tz=UTC)
+        event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
         table_data.append(
             {
                 "Day": event_date.date(),
@@ -180,3 +180,4 @@ def timeline():
         diagram_2=chart_2,
         diagram_3=chart_3,
     )
+
