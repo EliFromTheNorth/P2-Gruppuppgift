@@ -31,6 +31,7 @@ def earthquake_data(url):
         .reset_index()
         .round(1)
     )
+    print(table)
     return table
 
 def summary_table(table):
@@ -124,5 +125,13 @@ def timeline_statistics(url):
     html_2 = summary_table(table)
     chart_1, chart_2, chart_3 = charts(table)  
 
-
     return html, html_2, chart_1, chart_2, chart_3
+
+if __name__ == "__main__":
+    test_url = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2026-10-10&endtime=2026-10-29&minmagnitude=2.5"
+    
+    print("Stahuji data a počítám tabulku...")
+    result_table = earthquake_data(test_url)
+    
+    print("\nTady je výsledek:")
+    print(result_table)

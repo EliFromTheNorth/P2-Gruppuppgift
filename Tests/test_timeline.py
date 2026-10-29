@@ -1,6 +1,5 @@
 from unittest.mock import patch, Mock
-from timeline import timeline_statistics
-
+from timeline import timeline_statistics, earthquake_data
 
 fake_earthquake_data = {
     "features": [
@@ -10,21 +9,21 @@ fake_earthquake_data = {
     ]
 }
 
-
-
-
-# @patch("timeline.requests.get")
-# def test_timeline_statistics(mock_get):
-#     mock_get.return_value = Mock(
-#         status_code=200,
-#         json=lambda: fake_earthquake_data,
-#     )
-#     html, html_2, chart_1, chart_2, chart_3 = timeline_statistics("mock_url")
-#     assert timeline_statistics(fake_earthquake_data) == 
-
 @patch("timeline.requests.get")
-def test_timeline_statistics(mock_get):
+def test_earthquake_data(mock_get):
     mock_get.return_value = Mock(
         status_code=200,
         json=lambda: fake_earthquake_data,
     )
+    table = earthquake_data("url")
+    assert len(table) == 2
+
+    row_day_1 = table.iloc[0]
+    assert row_day_1["Count"] == 2
+    assert row_day_1["AverageMagnitude"] == 4.0
+    assert row_day_1["MaxMagnitude"] == 5.0
+    
+    row_day_2 = table.iloc[1]
+    assert row_day_2["Count"] == 1
+    assert row_day_2["AverageMagnitude"] == 2.5
+    assert row_day_2["MaxMagnitude"] == 2.5
