@@ -4,8 +4,7 @@ import pandas as pd
 import plotly.express as px
 import requests
 
-
-def timeline_statistics(url):
+def earthquake_data(url):
     response = requests.get(url)
     data = response.json()
     table_data = []
@@ -32,33 +31,12 @@ def timeline_statistics(url):
         .reset_index()
         .round(1)
     )
+    return table
 
-    html = table.to_html(classes="table table-striped", index=False)
-
-    figure_1 = px.bar(
-        table,
-        x="Day",
-        y="Count",
-    )
-    chart_1 = figure_1.to_html(full_html=False, include_plotlyjs="cdn")
-
-    figure_2 = px.bar(
-        table,
-        x="Day",
-        y="AverageMagnitude",
-    )
-    chart_2 = figure_2.to_html(full_html=False, include_plotlyjs="cdn")
-
-    figure_3 = px.bar(
-        table,
-        x="Day",
-        y="MaxMagnitude",
-    )
-    chart_3 = figure_3.to_html(full_html=False, include_plotlyjs="cdn")
-
+def summary_table(table):
     def summary_values(column):
         return ", ".join(str(e) for e in column)
-
+    
     summary_rows = [
         {
             "name": "Max earthquakes per day",
@@ -99,7 +77,7 @@ def timeline_statistics(url):
             "column": "AverageMagnitude",
         },
     ]
-
+    
     summary_table = []
     for e in summary_rows:
         summary_table.append(
@@ -113,7 +91,38 @@ def timeline_statistics(url):
         )
 
     summary_df = pd.DataFrame(summary_table)
-
     html_2 = summary_df.to_html(classes="table table-striped", index=False)
+    return html_2
+
+def charts(table):
+    figure_1 = px.bar(
+            table,
+            x="Day",
+            y="Count",
+        )
+    chart_1 = figure_1.to_html(full_html=False, include_plotlyjs="cdn")
+    
+    figure_2 = px.bar(
+            table,
+            x="Day",
+            y="AverageMagnitude",
+        )
+    chart_2 = figure_2.to_html(full_html=False, include_plotlyjs="cdn")
+    
+    figure_3 = px.bar(
+            table,
+            x="Day",
+            y="MaxMagnitude",
+        )
+    chart_3 = figure_3.to_html(full_html=False, include_plotlyjs="cdn")
+    return chart_1, chart_2, chart_3
+
+def timeline_statistics(url):
+    table = earthquake_data(url)
+
+    html = table.to_html(classes="table table-striped", index=False)
+    html_2 = summary_table(table)
+    chart_1, chart_2, chart_3 = charts(table)  
+
 
     return html, html_2, chart_1, chart_2, chart_3

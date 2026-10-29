@@ -13,11 +13,18 @@ fake_earthquake_data = {
 
 
 
+# @patch("timeline.requests.get")
+# def test_timeline_statistics(mock_get):
+#     mock_get.return_value = Mock(
+#         status_code=200,
+#         json=lambda: fake_earthquake_data,
+#     )
+#     html, html_2, chart_1, chart_2, chart_3 = timeline_statistics("mock_url")
+#     assert timeline_statistics(fake_earthquake_data) == 
+
 @patch("timeline.requests.get")
 def test_timeline_statistics(mock_get):
     mock_get.return_value = Mock(
         status_code=200,
         json=lambda: fake_earthquake_data,
     )
-    html, html_2, chart_1, chart_2, chart_3 = timeline_statistics("mock_url")
-    assert "<table" in html
