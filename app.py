@@ -1,8 +1,6 @@
+from datetime import date, timedelta
+
 from flask import Flask, render_template
-import pandas as pd
-import plotly.express as px
-import requests
-from datetime import datetime, date, timedelta
 
 app = Flask(__name__)
 
@@ -11,6 +9,6 @@ start_date = date.today() - timedelta(days=30)
 URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_date}&minmagnitude=2.5"
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
