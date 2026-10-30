@@ -92,8 +92,7 @@ def summary_table(table):
         )
 
     summary_df = pd.DataFrame(summary_table)
-    html_2 = summary_df.to_html(classes="table table-striped", index=False)
-    return html_2
+    return summary_df
 
 def charts(table):
     figure_1 = px.bar(
@@ -122,7 +121,8 @@ def timeline_statistics(url):
     table = earthquake_data(url)
 
     html = table.to_html(classes="table table-striped", index=False)
-    html_2 = summary_table(table)
+    summary_df = summary_table(table)
+    html_2 = summary_df.to_html(classes="table table-striped", index=False)
     chart_1, chart_2, chart_3 = charts(table)  
 
     return html, html_2, chart_1, chart_2, chart_3

@@ -1,5 +1,7 @@
 from unittest.mock import patch, Mock
-from timeline import timeline_statistics, earthquake_data
+from timeline import timeline_statistics, earthquake_data, summary_table
+from datetime import date
+import pandas as pd
 
 fake_earthquake_data = {
     "features": [
@@ -27,3 +29,46 @@ def test_earthquake_data(mock_get):
     assert row_day_2["Count"] == 1
     assert row_day_2["AverageMagnitude"] == 2.5
     assert row_day_2["MaxMagnitude"] == 2.5
+
+    # test for summary_table():
+
+mock_table = pd.DataFrame([
+    {
+        "Day": date(2026, 3, 31), 
+        "Count": 2, 
+        "AverageMagnitude": 4.0, 
+        "MaxMagnitude": 5.0
+    },
+    {
+        "Day": date(2026, 4, 1), 
+        "Count": 1, 
+        "AverageMagnitude": 2.5, 
+        "MaxMagnitude": 2.5
+    }
+])
+
+def test_summary_table():
+    result = summary_table(mock_table)
+    assert result.notnull().all().all()
+
+    expected_data = {
+        "Max earthquakes per day": {"Day": "2026-03-31", "Value": "2"},
+        "Min earthquakes per day": {"Day": "2026-04-01", "Value": "1"},
+        "Strongest earthquake": {"Day": "2026-03-31", "Value": "5.0"},
+        "Mildest earthquake": {"Day": "2026-04-01", "Value": "2.5"},
+        "Highest day average": {"Day": "2026-03-31", "Value": "4.0"},
+        "Lowest day average": {"Day": "2026-04-01", "Value": "2.5"},
+    }
+
+    for name, expected in expected_data.items():
+        row = result[result.iloc[:, 0] == name].iloc[0]
+        assert row["Day"] == expected["Day"]
+        assert row["Value"] == expected["Value"]
+
+
+
+
+
+    # test for charts()?
+    # integration test for timeline_statistics()?
+
