@@ -32,24 +32,10 @@ def test_earthquake_data(mock_get):
 
     # test for summary_table():
 
-mock_table = pd.DataFrame([
-    {
-        "Day": date(2026, 3, 31), 
-        "Count": 2, 
-        "AverageMagnitude": 4.0, 
-        "MaxMagnitude": 5.0
-    },
-    {
-        "Day": date(2026, 4, 1), 
-        "Count": 1, 
-        "AverageMagnitude": 2.5, 
-        "MaxMagnitude": 2.5
-    }
-])
-
 def test_summary_table():
-    result = summary_table(mock_table)
-    assert result.notnull().all().all()
+    mock_table = pd.DataFrame([
+    {"Day": date(2026, 3, 31), "Count": 2, "AverageMagnitude": 4.0, "MaxMagnitude": 5.0},
+    {"Day": date(2026, 4, 1), "Count": 1, "AverageMagnitude": 2.5, "MaxMagnitude": 2.5} ])
 
     expected_data = {
         "Max earthquakes per day": {"Day": "2026-03-31", "Value": "2"},
@@ -60,6 +46,8 @@ def test_summary_table():
         "Lowest day average": {"Day": "2026-04-01", "Value": "2.5"},
     }
 
+    result = summary_table(mock_table)
+    assert result.notnull().all().all()
     for name, expected in expected_data.items():
         row = result[result.iloc[:, 0] == name].iloc[0]
         assert row["Day"] == expected["Day"]
