@@ -4,7 +4,7 @@ import plotly.express as px
 from flask import Flask, render_template
 
 from bearbetning import skapa_dataframe
-from api import hämta_jordskalv
+from usgs import hämta_jordskalv
 
 app = Flask(__name__)
 
@@ -45,7 +45,21 @@ def visa_karta():
         lon="longitude",
         hover_name="place",
         color="mag",
-        hover_data=["depth", "time],
+        
+        hover_data={
+            "mag": True,
+            "depth": True,
+            "time": True,
+            "latitude": False,
+            "longitude": False,
+        },
+        
+        labels={
+            "mag": "Magnitud",
+            "depth": "Djup (km)",
+            "time": "Tid (UTC)",
+        },
+
         title=None,
         projection="natural earth",
         height=750,
