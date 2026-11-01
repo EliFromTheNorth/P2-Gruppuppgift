@@ -99,6 +99,7 @@ def charts(table):
             table,
             x="Day",
             y="Count",
+            color_discrete_sequence=["#5c1360"]
         )
     chart_1 = figure_1.to_html(full_html=False, include_plotlyjs="cdn")
     
@@ -106,6 +107,7 @@ def charts(table):
             table,
             x="Day",
             y="AverageMagnitude",
+            color_discrete_sequence=["#0c6565"]
         )
     chart_2 = figure_2.to_html(full_html=False, include_plotlyjs="cdn")
     
@@ -113,6 +115,7 @@ def charts(table):
             table,
             x="Day",
             y="MaxMagnitude",
+            color_discrete_sequence=["#20afcc"]
         )
     chart_3 = figure_3.to_html(full_html=False, include_plotlyjs="cdn")
     return chart_1, chart_2, chart_3
