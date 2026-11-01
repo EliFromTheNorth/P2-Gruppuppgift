@@ -4,8 +4,20 @@ import pandas as pd
 import plotly.express as px
 import requests
 
+
 def earthquake_data(url):
-    response = requests.get(url)
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+    except requests.Timeout:
+        return "Servern svarade inte i tid (Timeout)"
+    except requests.HTTPError as e:
+        return f"HTTP-fel! Felkod: {e.response.status_code}"
+    except requests.ConnectionError:
+        return "Kunde inte nå servern. Kontrollera din internetanslutning."
+    except ValueError:
+        return "Kunde inte tolka data från servern (ogiltig JSON)."
+
     data = response.json()
     table_data = []
     for entry in data["features"]:
@@ -15,7 +27,7 @@ def earthquake_data(url):
         table_data.append(
             {
                 "Day": event_date.date(),
-                "Location": e.get("place", ""),
+                # "Location": e.get("place", ""),
                 "Magnitude": e.get("mag", ""),
             }
         )
