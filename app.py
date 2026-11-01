@@ -45,7 +45,7 @@ def visa_karta():
         lon="longitude",
         hover_name="place",
         color="mag",
-        hover_data=["depth"],
+        hover_data=["depth", "time],
         title=None,
         projection="natural earth",
         height=750,
