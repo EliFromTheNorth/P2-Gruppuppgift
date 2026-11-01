@@ -95,36 +95,26 @@ def summary_table(table):
     return summary_df
 
 def charts(table):
-    figure_1 = px.bar(
-            table,
-            x="Day",
-            y="Count",
-            color_discrete_sequence=["#5c1360"],
-            labels={"Day": "Datum", "Count": "Antal"}
-        )
-    chart_1 = figure_1.to_html(full_html=False, include_plotlyjs="cdn")
-    
-    figure_2 = px.bar(
-            table,
-            x="Day",
-            y="AverageMagnitude",
-            color_discrete_sequence=["#0c6565"],                
-            labels={"Day": "Datum", "AverageMagnitude": "Genomsnittlig magnitud"}
-        )
-    chart_2 = figure_2.to_html(full_html=False, include_plotlyjs="cdn")
-    
-    figure_3 = px.bar(
-            table,
-            x="Day",
-            y="MaxMagnitude",
-            color_discrete_sequence=["#20afcc"],
-            labels={"Day": "Datum", "MaxMagnitude": "Maximal magnitud"}
-        )
-    chart_3 = figure_3.to_html(full_html=False, include_plotlyjs="cdn")
-    return chart_1, chart_2, chart_3
+    chart_configs = [
+        ("Count", "#5c1360", "Antal"),
+        ("AverageMagnitude", "#0c6565", "Genomsnittlig magnitud"),
+        ("MaxMagnitude", "#20afcc", "Maximal magnitud"),
+    ]
 
-def format_date(series):
-    return pd.to_datetime(series).dt.strftime('%d %b')
+    charts_list = []
+    for column, color, label in chart_configs:
+        fig = px.bar(
+            table,
+            x="Day",
+            y=column,
+            color_discrete_sequence=[color],
+            labels={"Day": "Datum", column: label}
+        )
+        chart = fig.to_html(full_html=False, include_plotlyjs="cdn")
+        charts_list.append(chart)
+
+    
+    return charts_list
 
 def timeline_statistics(url):
     table = earthquake_data(url)
