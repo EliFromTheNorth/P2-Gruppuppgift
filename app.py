@@ -4,7 +4,7 @@ import plotly.express as px
 from flask import Flask, render_template
 
 from bearbetning import skapa_dataframe
-from usgs import hämta_jordskalv
+from api import hämta_jordskalv
 
 app = Flask(__name__)
 
