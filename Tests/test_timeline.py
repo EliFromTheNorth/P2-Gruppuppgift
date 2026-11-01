@@ -46,17 +46,17 @@ def test_summary_table():
         "Lowest day average": {"Day": "2026-04-01", "Value": "2.5"},
     }
 
-    result = summary_table(mock_table)
-    assert result.notnull().all().all()
-    for name, expected in expected_data.items():
-        row = result[result.iloc[:, 0] == name].iloc[0]
-        assert row["Day"] == expected["Day"]
-        assert row["Value"] == expected["Value"]
+    generated_summary = summary_table(mock_table)
+    # assert generated_summary.notnull().all().all()
+    # for name, expected_value in expected_data.items():
+    #     row = generated_summary[generated_summary.iloc[:, 0] == name].iloc[0]
+    #     assert row["Day"] == expected_value["Day"]
+    #     assert row["Value"] == expected_value["Value"]
+
+    assert generated_summary.to_dict("records") == expected_data
 
 
 
 
-
-    # test for charts()?
     # integration test for timeline_statistics()?
 
