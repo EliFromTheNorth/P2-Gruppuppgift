@@ -31,7 +31,8 @@ def earthquake_data(url):
         .reset_index()
         .round(1)
     )
-    print(table)
+    # table.columns = ["Datum", "Antal", "Genomsnittlig magnitud", "Maximal magnitud"]
+    
     return table
 
 def summary_table(table):
@@ -40,38 +41,38 @@ def summary_table(table):
     
     summary_rows = [
         {
-            "name": "Max earthquakes per day",
+            "name": "Flest jordbävningar per dag",
             "filtered_data": table[table["Count"] == table["Count"].max()],
             "column": "Count",
         },
         {
-            "name": "Min earthquakes per day",
+            "name": "Färst jordbävningar per dag",
             "filtered_data": table[table["Count"] == table["Count"].min()],
             "column": "Count",
         },
         {
-            "name": "Strongest earthquake",
+            "name": "Kraftigaste jordbävningen",
             "filtered_data": table[
                 table["MaxMagnitude"] == table["MaxMagnitude"].max()
             ],
             "column": "MaxMagnitude",
         },
         {
-            "name": "Mildest earthquake",
+            "name": "Svagaste jordbävningen",
             "filtered_data": table[
                 table["MaxMagnitude"] == table["MaxMagnitude"].min()
             ],
             "column": "MaxMagnitude",
         },
         {
-            "name": "Highest day average",
+            "name": "Högsta dagsgenomsnitt",
             "filtered_data": table[
                 table["AverageMagnitude"] == table["AverageMagnitude"].max()
             ],
             "column": "AverageMagnitude",
         },
         {
-            "name": "Lowest day average",
+            "name": "Lägsta dagsgenomsnitt",
             "filtered_data": table[
                 table["AverageMagnitude"] == table["AverageMagnitude"].min()
             ],
@@ -84,8 +85,8 @@ def summary_table(table):
         summary_table.append(
             {
                 "": e["name"],
-                "Day": summary_values(e["filtered_data"]["Day"].values),
-                "Value": str(int(e["filtered_data"][e["column"]].iloc[0]))
+                "Dag": summary_values(e["filtered_data"]["Day"].values),
+                "Värde": str(int(e["filtered_data"][e["column"]].iloc[0]))
                 if e["column"] == "Count"
                 else str(e["filtered_data"][e["column"]].iloc[0]),
             }
@@ -99,7 +100,8 @@ def charts(table):
             table,
             x="Day",
             y="Count",
-            color_discrete_sequence=["#5c1360"]
+            color_discrete_sequence=["#5c1360"],
+            labels={"Day": "Datum", "Count": "Antal"}
         )
     chart_1 = figure_1.to_html(full_html=False, include_plotlyjs="cdn")
     
@@ -107,7 +109,8 @@ def charts(table):
             table,
             x="Day",
             y="AverageMagnitude",
-            color_discrete_sequence=["#0c6565"]
+            color_discrete_sequence=["#0c6565"],                
+            labels={"Day": "Datum", "AverageMagnitude": "Genomsnittlig magnitud"}
         )
     chart_2 = figure_2.to_html(full_html=False, include_plotlyjs="cdn")
     
@@ -115,17 +118,24 @@ def charts(table):
             table,
             x="Day",
             y="MaxMagnitude",
-            color_discrete_sequence=["#20afcc"]
+            color_discrete_sequence=["#20afcc"],
+            labels={"Day": "Datum", "MaxMagnitude": "Maximal magnitud"}
         )
     chart_3 = figure_3.to_html(full_html=False, include_plotlyjs="cdn")
     return chart_1, chart_2, chart_3
 
 def timeline_statistics(url):
     table = earthquake_data(url)
-
-    html = table.to_html(classes="table table-striped", index=False)
     summary_df = summary_table(table)
     html_2 = summary_df.to_html(classes="table table-striped", index=False)
-    chart_1, chart_2, chart_3 = charts(table)  
+    chart_1, chart_2, chart_3 = charts(table) 
+
+    table = table.rename(columns={
+        "Day": "Datum",
+        "Count": "Antal",
+        "AverageMagnitude": "Genomsnittlig magnitud",
+        "MaxMagnitude": "Maximal magnitud"
+    })
+    html = table.to_html(classes="table table-striped", index=False)
 
     return html, html_2, chart_1, chart_2, chart_3
