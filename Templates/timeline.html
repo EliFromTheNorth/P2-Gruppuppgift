@@ -1,18 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Earthquake timeline</h1>
-<h2>Senaste 30 dagarna</h2>
 
-{{timeline | safe}}
-{{diagram_1 | safe}}
-{{diagram_2 | safe}}
-{{diagram_3 | safe}}
+<style>
+.tab-pane:not(.active) { display: block !important; height: 0; overflow: hidden; }
+</style>
+
+<h1>Earthquake timeline</h1>
 
 <h2>Summary</h2>
 <div>
     {{ summary | safe }}
 </div>
 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#graf1" type="button">Count</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#graf2" type="button">Average</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#graf3" type="button">Max</button>
+    </li>
+</ul>
 
+<div class="tab-content">
+    <div class="tab-pane show active" id="graf1">{{ diagram_1 | safe }}</div>
+    <div class="tab-pane" id="graf2">{{ diagram_2 | safe }}</div>
+    <div class="tab-pane" id="graf3">{{ diagram_3 | safe }}</div>
+</div>
+
+<h2>Senaste 30 dagarna</h2>
+
+{{timeline | safe}}
+<!-- {{diagram_1 | safe}}
+{{diagram_2 | safe}}
+{{diagram_3 | safe}} -->
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
