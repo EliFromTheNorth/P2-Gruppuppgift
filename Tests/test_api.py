@@ -2,10 +2,10 @@ from unittest.mock import patch
 
 import requests
 
-from usgs import hämta_jordskalv
+from api import hämta_jordskalv
 
 
-@patch("usgs.requests.get")
+@patch("api.requests.get")
 def test_hämta_jordskalv_nätverksfel(mock_get):
     mock_get.side_effect = requests.exceptions.Timeout
 
@@ -15,7 +15,7 @@ def test_hämta_jordskalv_nätverksfel(mock_get):
     mock_get.assert_called_once()
 
 
-@patch("usgs.requests.get")
+@patch("api.requests.get")
 def test_hämta_jordskalv_lyckas(mock_get):
     förväntat_data = {"features": []}
 
@@ -28,7 +28,7 @@ def test_hämta_jordskalv_lyckas(mock_get):
     mock_svar.raise_for_status.assert_called_once()
 
 
-@patch("usgs.requests.get")
+@patch("api.requests.get")
 def test_hämta_jordskalv_http_fel(mock_get):
     mock_svar = mock_get.return_value
 
