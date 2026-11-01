@@ -31,8 +31,7 @@ def earthquake_data(url):
         .reset_index()
         .round(1)
     )
-    # table.columns = ["Datum", "Antal", "Genomsnittlig magnitud", "Maximal magnitud"]
-    
+    table["Day"] = pd.to_datetime(table["Day"]).dt.strftime('%d %b')
     return table
 
 def summary_table(table):
@@ -85,7 +84,7 @@ def summary_table(table):
         summary_table.append(
             {
                 "": e["name"],
-                "Dag": summary_values(e["filtered_data"]["Day"].values),
+                "Datum": summary_values(e["filtered_data"]["Day"].values),
                 "Värde": str(int(e["filtered_data"][e["column"]].iloc[0]))
                 if e["column"] == "Count"
                 else str(e["filtered_data"][e["column"]].iloc[0]),
@@ -124,18 +123,20 @@ def charts(table):
     chart_3 = figure_3.to_html(full_html=False, include_plotlyjs="cdn")
     return chart_1, chart_2, chart_3
 
+def format_date(series):
+    return pd.to_datetime(series).dt.strftime('%d %b')
+
 def timeline_statistics(url):
     table = earthquake_data(url)
-    summary_df = summary_table(table)
-    html_2 = summary_df.to_html(classes="table table-striped", index=False)
+    html_2 = (
+        summary_table(table)
+        .to_html(classes="table table-striped", index=False)
+    )
     chart_1, chart_2, chart_3 = charts(table) 
 
-    table = table.rename(columns={
-        "Day": "Datum",
-        "Count": "Antal",
-        "AverageMagnitude": "Genomsnittlig magnitud",
-        "MaxMagnitude": "Maximal magnitud"
-    })
-    html = table.to_html(classes="table table-striped", index=False)
+    html = (
+        table.rename(columns={"Day": "Datum", "Count": "Antal", "AverageMagnitude": "Genomsnittlig magnitud", "MaxMagnitude": "Maximal magnitud"})
+        .to_html(classes="table table-striped", index=False)
+    )
 
     return html, html_2, chart_1, chart_2, chart_3
