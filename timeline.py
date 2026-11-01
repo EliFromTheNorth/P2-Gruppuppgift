@@ -24,13 +24,8 @@ def earthquake_data(url):
         e = entry["properties"]
         timestamp = e.get("time", "")
         event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
-        table_data.append(
-            {
-                "Day": event_date.date(),
-                # "Location": e.get("place", ""),
-                "Magnitude": e.get("mag", ""),
-            }
-        )
+        table_data.append({"Day": event_date.date(), "Magnitude": e.get("mag", "")})
+   
     df = pd.DataFrame(table_data)
 
     table = (
@@ -130,6 +125,12 @@ def charts(table):
 
 def timeline_statistics(url):
     table = earthquake_data(url)
+
+    # delete after error.html created
+    if not isinstance(table, pd.DataFrame):
+        return table, "", "", "", ""
+    #######
+
     html_2 = (
         summary_table(table)
         .to_html(classes="table table-striped", index=False)
