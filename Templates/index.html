@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
+<div class="mb-4 rounded-3">
+    <div class="container-fluid">
         <h1 class="display-5 fw-bold">Välkommen till Jordbävningsöversikten!</h1>
-        <p class="col-md-8 fs-4">Här kan du utforska <span class="text-pink">globala jordbävningar</span> med en magnitud över 2.5 som har inträffat under de <span class="text-pink">senaste 30 dagarna</span>.</p>
-        <ul class="fs-5">
-            <li class="mb-4">📊 Statistik: Fördjupa dig i tydliga grafer över både magnituder och djup.</li>
-            <li class="mb-4">🌍 Interaktiv karta: Se exakt var jordskalven har ägt rum runt om i världen.</li>
-            <li class="mb-4">📈 Tidslinje & Antal: Följ utvecklingen och se grafer över antalet skalv per dag under den senaste månaden.</li>
-        </ul>
+        <p class="col-md-8 fs-3">Här kan du utforska <span class="text-primary">globala jordbävningar</span> med en magnitud över 2.5 som har inträffat under de <span class="text-success">senaste 30 dagarna</span>.</p>
+        <div class="row align-items-center my-5 d-flex justify-content-center">
+            <ul class="fs-5 col-md-8">
+                <li class="mb-4">📊 <strong>Statistik:</strong> Fördjupa dig i tydliga grafer över både magnituder och djup.</li>
+                <li class="mb-4">🌍 <strong>Interaktiv karta:</strong> Se exakt var jordskalven har ägt rum runt om i världen.</li>
+                <li class="mb-4">📈 <strong>Tidslinje & Antal:</strong> Följ utvecklingen och se grafer över antalet skalv per dag under den senaste månaden.</li>
+            </ul>
+            <img src="{{ url_for('static', filename='images/earthquake.jpg') }}" class="img-fluid w-25 col-md-4" alt="Jordbävning">
+        </div>
+
 
         <p class="fs-5">Håll dig uppdaterad om jordens rörelser på ett enkelt, överskådligt och interaktivt sätt!</p>
     </div>
