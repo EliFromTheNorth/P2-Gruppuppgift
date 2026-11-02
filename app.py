@@ -21,6 +21,10 @@ URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttim
 def index():
     return render_template("index.html")
 
+@app.errorhandler(404)
+def error404(error):
+    return render_template("error404.html"), 404
+
 
 @app.route("/timeline")
 def timeline():

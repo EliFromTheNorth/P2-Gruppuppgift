@@ -19,6 +19,13 @@ def earthquake_data(url):
         return "Kunde inte tolka data från servern (ogiltig JSON)."
 
     data = response.json()
+    # if data is None:
+    #     return render_template(
+    #         "timeline.html",
+    #         karta=None,
+    #         fel="Kunde inte hämta jordskalvsdata just nu.",
+    #     ), 503
+
     table_data = []
     for entry in data["features"]:
         e = entry["properties"]
