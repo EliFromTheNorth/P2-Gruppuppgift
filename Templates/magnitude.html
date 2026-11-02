@@ -1,15 +1,27 @@
+
 {% extends "base.html" %}
 
 {% block content %}
 
 <h1>Jordskalv</h1>
 
-{% for skalv in data["features"] %}
+<table>
+    <tr>
+        <th>Magnitud</th>
+        <th>Plats</th>
+        <th>Kategori</th>
+    </tr>
 
-    <p>Magnitud: {{ skalv["properties"]["mag"] }}</p>
+    {% for skalv in earthquake_list %}
 
-    <p>Plats: {{ skalv["properties"]["place"] }}</p>
+    <tr>
+        <td>{{ skalv.magnitud }}</td>
+        <td>{{ skalv.plats }}</td>
+        <td>{{ skalv.kategori }}</td>
+    </tr>
 
-{% endfor %}
+    {% endfor %}
+
+</table>
 
 {% endblock %}

@@ -18,14 +18,30 @@ def index():
 
 @app.route('/magnitude', methods=['GET'])
 def magnitude():
-    req = requests.get(URL)
-    data = req.json()
-    return render_template('magnitude.html', data=data)
-    
+ req = requests.get(URL, timeout=10)
+ data = req.json()
 
+ earthquake_list = []
+ for quakes in data["features"]:
 
+        magnitud = round(quakes["properties"]["mag"], 2)
+        plats = quakes["properties"]["place"]
 
+        if magnitud is None:
+            continue
 
+        if magnitud >= 5:
+            kategori = "Major"
+        else:
+            kategori = "Minor"
+
+        earthquake_list.append({
+            "magnitud": magnitud,
+            "plats": plats,
+            "kategori": kategori
+        })
+ 
+ return render_template('magnitude.html', data=data, earthquake_list=earthquake_list)
 
 
 if __name__ == "__main__":
