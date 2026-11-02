@@ -119,7 +119,6 @@ def charts(table):
         )
         chart = fig.to_html(full_html=False, include_plotlyjs="cdn")
         charts_list.append(chart)
-
     
     return charts_list
 

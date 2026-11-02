@@ -30,33 +30,19 @@ def test_earthquake_data(mock_get):
     assert row_day_2["AverageMagnitude"] == 2.5
     assert row_day_2["MaxMagnitude"] == 2.5
 
-    # test for summary_table():
-
 def test_summary_table():
     mock_table = pd.DataFrame([
     {"Day": date(2026, 3, 31), "Count": 2, "AverageMagnitude": 4.0, "MaxMagnitude": 5.0},
     {"Day": date(2026, 4, 1), "Count": 1, "AverageMagnitude": 2.5, "MaxMagnitude": 2.5} ])
 
-    expected_data = {
-        "Max earthquakes per day": {"Day": "2026-03-31", "Value": "2"},
-        "Min earthquakes per day": {"Day": "2026-04-01", "Value": "1"},
-        "Strongest earthquake": {"Day": "2026-03-31", "Value": "5.0"},
-        "Mildest earthquake": {"Day": "2026-04-01", "Value": "2.5"},
-        "Highest day average": {"Day": "2026-03-31", "Value": "4.0"},
-        "Lowest day average": {"Day": "2026-04-01", "Value": "2.5"},
-    }
+    expected_data = [
+            {"": "Flest jordbävningar per dag", "Datum": "2026-03-31", "Värde": "2"},
+            {"": "Färst jordbävningar per dag", "Datum": "2026-04-01", "Värde": "1"},
+            {"": "Kraftigaste jordbävningen", "Datum": "2026-03-31", "Värde": "5.0"},
+            {"": "Svagaste jordbävningen", "Datum": "2026-04-01", "Värde": "2.5"},
+            {"": "Högsta dagsgenomsnitt", "Datum": "2026-03-31", "Värde": "4.0"},
+            {"": "Lägsta dagsgenomsnitt", "Datum": "2026-04-01", "Värde": "2.5"},
+        ]
 
     generated_summary = summary_table(mock_table)
-    # assert generated_summary.notnull().all().all()
-    # for name, expected_value in expected_data.items():
-    #     row = generated_summary[generated_summary.iloc[:, 0] == name].iloc[0]
-    #     assert row["Day"] == expected_value["Day"]
-    #     assert row["Value"] == expected_value["Value"]
-
     assert generated_summary.to_dict("records") == expected_data
-
-
-
-
-    # integration test for timeline_statistics()?
-
