@@ -8,6 +8,9 @@ import requests
 def earthquake_data(url):
     try:
         response = requests.get(url, timeout=5)
+        # response = requests.get(url, timeout=0.00000000005) #FEL: Kunde inte nå servern. Kontrollera din internetanslutning.
+        # response = requests.get(url, timeout=(2.0, 0.0001))  #FEL: "Servern svarade inte i tid (Timeout)"
+
         response.raise_for_status()
     except requests.Timeout:
         return "Servern svarade inte i tid (Timeout)"
