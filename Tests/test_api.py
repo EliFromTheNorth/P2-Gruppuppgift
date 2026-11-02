@@ -1,0 +1,40 @@
+from unittest.mock import patch
+
+import requests
+
+from api import hämta_jordskalv
+
+
+@patch("api.requests.get")
+def test_hämta_jordskalv_nätverksfel(mock_get):
+    mock_get.side_effect = requests.exceptions.Timeout
+
+    result = hämta_jordskalv("test-url")
+
+    assert result is None
+    mock_get.assert_called_once()
+
+
+@patch("api.requests.get")
+def test_hämta_jordskalv_lyckas(mock_get):
+    förväntat_data = {"features": []}
+
+    mock_svar = mock_get.return_value
+    mock_svar.json.return_value = förväntat_data
+
+    resultat = hämta_jordskalv("test-url")
+
+    assert resultat == förväntat_data
+    mock_svar.raise_for_status.assert_called_once()
+
+
+@patch("api.requests.get")
+def test_hämta_jordskalv_http_fel(mock_get):
+    mock_svar = mock_get.return_value
+
+    mock_svar.raise_for_status.side_effect = requests.exceptions.HTTPError("Serverfel")
+
+    resultat = hämta_jordskalv("test-url")
+
+    assert resultat is None
+    mock_svar.raise_for_status.assert_called_once()
