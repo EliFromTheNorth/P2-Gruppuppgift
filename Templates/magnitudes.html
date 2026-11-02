@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Earthquakes by category</h1>
+
+<table>
+    <tr>
+        <th>Category</th>
+        <th>Number of earthquakes</th>
+        <th>Average magnitude</th>
+        <th>Highest magnitude</th>
+        <th>Average depth (km)</th>
+        <th>Greatest depth (km)</th>
+    </tr>
+
+    {% for row in table %}
+    <tr>
+        <td>{{ row.Category }}</td>
+        <td>{{ row.Count }}</td>
+        <td>{{ row.Average_magnitude }}</td>
+        <td>{{ row.Highest_magnitude }}</td>
+        <td>{{ row.Average_depth }}</td>
+        <td>{{ row.Greatest_depth }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}

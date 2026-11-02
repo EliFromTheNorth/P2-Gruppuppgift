@@ -1,5 +1,5 @@
 import pandas as pd
-
+from processing import process_earthquakes
 import requests
 from datetime import date, timedelta
 from flask import Flask, render_template
@@ -21,27 +21,11 @@ def magnitude():
  req = requests.get(URL, timeout=10)
  data = req.json()
 
- earthquake_list = []
- for quakes in data["features"]:
+ grouped_df = process_earthquakes(data)
 
-        magnitud = round(quakes["properties"]["mag"], 2)
-        plats = quakes["properties"]["place"]
+ table = grouped_df.to_dict(orient="records")
 
-        if magnitud is None:
-            continue
-
-        if magnitud >= 5:
-            kategori = "Major"
-        else:
-            kategori = "Minor"
-
-        earthquake_list.append({
-            "magnitud": magnitud,
-            "plats": plats,
-            "kategori": kategori
-        })
- 
- return render_template('magnitude.html', data=data, earthquake_list=earthquake_list)
+ return render_template("magnitudes.html",table=table)
 
 
 if __name__ == "__main__":
