@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Jordskalv</h1>
+
+{% for skalv in data["features"] %}
+
+    <p>Magnitud: {{ skalv["properties"]["mag"] }}</p>
+
+    <p>Plats: {{ skalv["properties"]["place"] }}</p>
+
+{% endfor %}
+
+{% endblock %}
