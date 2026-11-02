@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 import pandas as pd
 import plotly.express as px
@@ -19,12 +19,6 @@ def earthquake_data(url):
         return "Kunde inte tolka data från servern (ogiltig JSON)."
 
     data = response.json()
-    # if data is None:
-    #     return render_template(
-    #         "timeline.html",
-    #         karta=None,
-    #         fel="Kunde inte hämta jordskalvsdata just nu.",
-    #     ), 503
 
     table_data = []
     for entry in data["features"]:
@@ -132,10 +126,8 @@ def charts(table):
 def timeline_statistics(url):
     table = earthquake_data(url)
 
-    # delete after error.html created
-    if not isinstance(table, pd.DataFrame):
+    if type(table) == str:
         return table, "", "", "", ""
-    #######
 
     html_2 = (
         summary_table(table)

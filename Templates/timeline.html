@@ -6,34 +6,41 @@
 
 <h1 class="display-5 mx-4 border-bottom pb-2">Tidslinje över jordbävningar</h1>
 
-<h2 class="mb-4">Sammanfattning (senaste 30 dagarna)</h2>
-<div class="my-4">
-    {{ summary | safe }}
-</div>
-
-<div class="my-4">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#graf1" type="button">Antal per dag</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#graf2" type="button">Genomsnittlig magnitud</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#graf3" type="button">Maximal magnitud</button>
-        </li>
-    </ul>
-    
-    <div class="tab-content">
-        <div class="tab-pane show active" id="graf1">{{ diagram_1 | safe }}</div>
-        <div class="tab-pane" id="graf2">{{ diagram_2 | safe }}</div>
-        <div class="tab-pane" id="graf3">{{ diagram_3 | safe }}</div>
+{% if fel %}
+    <div class="alert alert-danger mx-4 mt-4" role="alert">
+        <strong>Ett fel uppstod:</strong> {{ fel }}
     </div>
-</div> 
+{% else %}
+    <h2 class="mb-4">Sammanfattning (senaste 30 dagarna)</h2>
+    <div class="my-4">
+        {{ summary | safe }}
+    </div>
 
-<h2 class="my-4">Dag för dag</h2>
+    <div class="my-4">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#graf1" type="button">Antal per dag</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#graf2" type="button">Genomsnittlig magnitud</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#graf3" type="button">Maximal magnitud</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content">
+            <div class="tab-pane show active" id="graf1">{{ diagram_1 | safe }}</div>
+            <div class="tab-pane" id="graf2">{{ diagram_2 | safe }}</div>
+            <div class="tab-pane" id="graf3">{{ diagram_3 | safe }}</div>
+        </div>
+    </div> 
 
-{{timeline | safe}}
+    <h2 class="my-4">Dag för dag</h2>
+
+    {{timeline | safe}}
+
+{% endif %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

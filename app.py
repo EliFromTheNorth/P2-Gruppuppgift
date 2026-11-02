@@ -3,7 +3,6 @@ from processing import process_earthquakes
 import requests
 from datetime import timezone, date, datetime, timedelta
 import plotly.express as px
-# import requests
 from flask import Flask, render_template
 from timeline import timeline_statistics
 from bearbetning import skapa_dataframe
@@ -41,6 +40,18 @@ def error404(error):
 @app.route("/timeline")
 def timeline():
     html, html_2, chart_1, chart_2, chart_3 = timeline_statistics(URL)
+
+    if "<table" not in html:
+        return render_template(
+            "timeline.html",
+            fel=html,
+            html = None, 
+            html_2 = None,
+            chart_1 = None,
+            chart_2 = None,
+            chart_3 = None
+        ), 503
+    
     return render_template(
         "timeline.html",
         timeline=html,
