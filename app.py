@@ -34,6 +34,5 @@ def visa_karta():
     return render_template("map.html", karta=karta)
 
 
-
 if __name__ == "__main__":
     app.run(debug=True)
