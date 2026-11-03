@@ -6,7 +6,7 @@ def hämta_jordskalv(url):
 
     try:
         svar = requests.get(url, timeout=10)
-        svar.raise_for_status()
+        svar.raise_for_status() #Kontrollerar om servret svarade med ett HTTP-fel.
         return svar.json()
 
     except requests.Timeout:
