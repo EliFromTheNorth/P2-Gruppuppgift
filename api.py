@@ -12,7 +12,7 @@ def hämta_jordskalv(url):
 
     # except (requests.exceptions.RequestException, ValueError): # original
     except requests.exceptions.RequestException:
-        return None
+        return "Ett nätverksfel uppstod vid hämtning av data."
     except requests.Timeout:
         return "Servern svarade inte i tid (Timeout)"
     except requests.HTTPError as e:
