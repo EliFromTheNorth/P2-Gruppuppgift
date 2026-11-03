@@ -1,13 +1,15 @@
-import pandas as pd
-from processing import process_earthquakes
-import requests
-from datetime import timezone, date, datetime, timedelta
+from datetime import date, timedelta
+
 import plotly.express as px
+import requests
+
 # import requests
 from flask import Flask, render_template
-from timeline import timeline_statistics
-from bearbetning import skapa_dataframe
+
 from api import hämta_jordskalv
+from bearbetning import skapa_dataframe
+from processing import process_earthquakes
+from timeline import timeline_statistics
 
 app = Flask(__name__)
 
@@ -19,19 +21,20 @@ URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttim
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/magnitude', methods=['GET'])
+@app.route("/magnitude", methods=["GET"])
 def magnitude():
- req = requests.get(URL, timeout=10)
- data = req.json()
+    req = requests.get(URL, timeout=10)
+    data = req.json()
 
- grouped_df = process_earthquakes(data)
+    grouped_df = process_earthquakes(data)
 
- table = grouped_df.to_dict(orient="records")
+    table = grouped_df.to_dict(orient="records")
 
- return render_template("magnitudes.html",table=table)
+    return render_template("magnitudes.html", table=table)
+
 
 @app.errorhandler(404)
 def error404(error):
@@ -49,6 +52,7 @@ def timeline():
         diagram_2=chart_2,
         diagram_3=chart_3,
     )
+
 
 @app.route("/map")
 def visa_karta():
@@ -76,7 +80,6 @@ def visa_karta():
         lon="longitude",
         hover_name="place",
         color="mag",
-        
         hover_data={
             "mag": True,
             "depth": True,
@@ -84,13 +87,11 @@ def visa_karta():
             "latitude": False,
             "longitude": False,
         },
-        
         labels={
             "mag": "Magnitud",
             "depth": "Djup (km)",
             "time": "Tid (UTC)",
         },
-
         title=None,
         projection="natural earth",
         height=750,

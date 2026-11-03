@@ -6,7 +6,6 @@ def process_earthquakes(data):
     earthquake_list = []
 
     for earthquake in data["features"]:
-
         magnitude = earthquake["properties"]["mag"]
         place = earthquake["properties"]["place"]
         depth = earthquake["geometry"]["coordinates"][2]
@@ -14,11 +13,7 @@ def process_earthquakes(data):
         if magnitude is None or depth is None:
             continue
 
-        earthquake_list.append({
-            "Magnitude": magnitude,
-            "Place": place,
-            "Depth": depth
-        })
+        earthquake_list.append({"Magnitude": magnitude, "Place": place, "Depth": depth})
 
     # Create a DataFrame
     df = pd.DataFrame(earthquake_list)
@@ -27,18 +22,20 @@ def process_earthquakes(data):
     df["Rounded magnitude"] = df["Magnitude"].round(2)
     df["Rounded depth"] = df["Depth"].round(2)
 
-    df["Category"] = df["Magnitude"].apply(
-        lambda x: "Major" if x >= 5.0 else "Minor"
-    )
+    df["Category"] = df["Magnitude"].apply(lambda x: "Major" if x >= 5.0 else "Minor")
 
     # Group earthquakes by category and calculate values
-    grouped_df = df.groupby("Category").agg(
-        Count=("Magnitude", "count"),
-        Average_magnitude=("Magnitude", "mean"),
-        Highest_magnitude=("Magnitude", "max"),
-        Average_depth=("Depth", "mean"),
-        Greatest_depth=("Depth", "max")
-    ).reset_index()
+    grouped_df = (
+        df.groupby("Category")
+        .agg(
+            Count=("Magnitude", "count"),
+            Average_magnitude=("Magnitude", "mean"),
+            Highest_magnitude=("Magnitude", "max"),
+            Average_depth=("Depth", "mean"),
+            Greatest_depth=("Depth", "max"),
+        )
+        .reset_index()
+    )
 
     # Round calculated values
     grouped_df["Average_magnitude"] = grouped_df["Average_magnitude"].round(2)
