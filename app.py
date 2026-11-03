@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from plotly import data
 import plotly.express as px
 import requests
 
@@ -24,16 +25,19 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/magnitude", methods=["GET"])
+@app.route("/magnitude")
 def magnitude():
-    req = requests.get(URL, timeout=10)
-    data = req.json()
+     
+    stats = hämta_jordskalv(URL)
 
-    grouped_df = process_earthquakes(data)
+    if isinstance(stats, str):
+        return render_template("magnitudes.html", error=stats)
+
+    grouped_df = process_earthquakes(stats)
 
     table = grouped_df.to_dict(orient="records")
 
-    return render_template("magnitudes.html", table=table)
+    return render_template("magnitudes.html", table=table, error=None)
 
 
 @app.errorhandler(404)
