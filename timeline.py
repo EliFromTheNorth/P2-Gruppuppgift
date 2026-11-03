@@ -10,7 +10,6 @@ def earthquake_data(url):
         response = requests.get(url, timeout=5)
         # response = requests.get(url, timeout=0.00000000005) #FEL: Kunde inte nå servern. Kontrollera din internetanslutning.
         # response = requests.get(url, timeout=(2.0, 0.0001))  #FEL: "Servern svarade inte i tid (Timeout)"
-
         response.raise_for_status()
     except requests.Timeout:
         return "Servern svarade inte i tid (Timeout)"
@@ -46,59 +45,27 @@ def earthquake_data(url):
     return table
 
 def summary_table(table):
-    def summary_values(column):
-        return ", ".join(str(e) for e in column)
-    
     summary_rows = [
-        {
-            "name": "Flest jordbävningar per dag",
-            "filtered_data": table[table["Count"] == table["Count"].max()],
-            "column": "Count",
-        },
-        {
-            "name": "Färst jordbävningar per dag",
-            "filtered_data": table[table["Count"] == table["Count"].min()],
-            "column": "Count",
-        },
-        {
-            "name": "Kraftigaste jordbävningen",
-            "filtered_data": table[
-                table["MaxMagnitude"] == table["MaxMagnitude"].max()
-            ],
-            "column": "MaxMagnitude",
-        },
-        {
-            "name": "Svagaste jordbävningen",
-            "filtered_data": table[
-                table["MaxMagnitude"] == table["MaxMagnitude"].min()
-            ],
-            "column": "MaxMagnitude",
-        },
-        {
-            "name": "Högsta dagsgenomsnitt",
-            "filtered_data": table[
-                table["AverageMagnitude"] == table["AverageMagnitude"].max()
-            ],
-            "column": "AverageMagnitude",
-        },
-        {
-            "name": "Lägsta dagsgenomsnitt",
-            "filtered_data": table[
-                table["AverageMagnitude"] == table["AverageMagnitude"].min()
-            ],
-            "column": "AverageMagnitude",
-        },
+        ("Flest jordbävningar per dag", "Count", max),
+        ("Färst jordbävningar per dag", "Count", min),
+        ("Kraftigaste jordbävningen", "MaxMagnitude", max),
+        ("Svagaste jordbävningen", "MaxMagnitude", min),
+        ("Högsta dagsgenomsnitt", "AverageMagnitude", max),
+        ("Lägsta dagsgenomsnitt", "AverageMagnitude", min),
     ]
-    
+   
     summary_table = []
-    for e in summary_rows:
+    for name, column, func in summary_rows:
+        value = func(table[column])
+        filtered_data = table[table[column] == value]
+        dates = ", ".join(str(date) for date in filtered_data["Day"].values)
+        value_format = str(int(value)) if column == "Count" else str(value)
+
         summary_table.append(
             {
-                "": e["name"],
-                "Datum": summary_values(e["filtered_data"]["Day"].values),
-                "Värde": str(int(e["filtered_data"][e["column"]].iloc[0]))
-                if e["column"] == "Count"
-                else str(e["filtered_data"][e["column"]].iloc[0]),
+                "": name,
+                "Datum": dates,
+                "Värde": value_format
             }
         )
 
