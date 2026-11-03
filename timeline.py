@@ -3,24 +3,15 @@ from datetime import datetime, timezone
 import pandas as pd
 import plotly.express as px
 import requests
+from api import hämta_jordskalv
 
 
 def earthquake_data(url):
-    try:
-        response = requests.get(url, timeout=5)
-        # response = requests.get(url, timeout=0.00000000005) #FEL: Kunde inte nå servern. Kontrollera din internetanslutning.
-        # response = requests.get(url, timeout=(2.0, 0.0001))  #FEL: "Servern svarade inte i tid (Timeout)"
-        response.raise_for_status()
-    except requests.Timeout:
-        return "Servern svarade inte i tid (Timeout)"
-    except requests.HTTPError as e:
-        return f"HTTP-fel! Felkod: {e.response.status_code}"
-    except requests.ConnectionError:
-        return "Kunde inte nå servern. Kontrollera din internetanslutning."
-    except ValueError:
-        return "Kunde inte tolka data från servern (ogiltig JSON)."
-
-    data = response.json()
+    data = hämta_jordskalv(url)
+    if type(data) == str:
+        return data
+    elif not data:
+        return "Kunde inte hämta data."
 
     table_data = []
     for entry in data["features"]:

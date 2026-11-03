@@ -72,6 +72,13 @@ def visa_karta():
             fel="Kunde inte hämta jordskalvsdata just nu.",
         ), 503
 
+    if type(data) == str:
+        return render_template(
+            "map.html",
+            karta=None,
+            fel=data,
+        ), 503
+
     df = skapa_dataframe(data)
 
     if df.empty:
