@@ -65,12 +65,13 @@ def timeline():
 def visa_karta():
     data = hämta_jordskalv(URL)
 
-    if data is None:
-        return render_template(
-            "map.html",
-            karta=None,
-            fel="Kunde inte hämta jordskalvsdata just nu.",
-        ), 503
+    # ORIGINAL:
+    # if data is None:
+    #     return render_template(
+    #         "map.html",
+    #         karta=None,
+    #         fel="Kunde inte hämta jordskalvsdata just nu.",
+    #     ), 503
 
     if type(data) == str:
         return render_template(
