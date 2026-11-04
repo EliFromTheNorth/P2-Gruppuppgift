@@ -38,7 +38,6 @@ def magnitude():
 def error404(error):
     return render_template("error404.html"), 404
 
-
 @app.route("/timeline")
 def timeline():
     html, html_2, chart_1, chart_2, chart_3 = timeline_statistics(URL)
