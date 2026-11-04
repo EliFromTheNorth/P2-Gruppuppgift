@@ -20,7 +20,8 @@ def hämta_jordskalv(url):
     except requests.Timeout:
         return "Servern svarade inte i tid (Timeout)"
     except requests.HTTPError as e:
-        return f"HTTP-fel! Felkod: {e.response.status_code}"
+        status = e.response.status_code if e.response else "okänd"
+        return f"HTTP-fel! Felkod: {status}"
     except requests.ConnectionError:
         return "Kunde inte nå servern. Kontrollera din internetanslutning."
     except ValueError:

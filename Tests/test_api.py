@@ -11,7 +11,7 @@ def test_hämta_jordskalv_nätverksfel(mock_get):
 
     result = hämta_jordskalv("test-url")
 
-    assert result is None
+    assert result == "Servern svarade inte i tid (Timeout)"
     mock_get.assert_called_once()
 
 
@@ -36,5 +36,5 @@ def test_hämta_jordskalv_http_fel(mock_get):
 
     resultat = hämta_jordskalv("test-url")
 
-    assert resultat is None
+    assert resultat == "HTTP-fel! Felkod: okänd"
     mock_svar.raise_for_status.assert_called_once()
