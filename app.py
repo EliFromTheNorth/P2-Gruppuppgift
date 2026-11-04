@@ -1,8 +1,6 @@
 from datetime import date, timedelta
 
-from plotly import data
 import plotly.express as px
-import requests
 
 # import requests
 from flask import Flask, render_template
@@ -27,17 +25,26 @@ def index():
 
 @app.route("/magnitude")
 def magnitude():
-     
-    stats = hämta_jordskalv(URL)
-
-    if isinstance(stats, str):
-        return render_template("magnitudes.html", error=stats)
-
-    grouped_df = process_earthquakes(stats)
-
+     # Hämtar jordskalvsdata från USGS API
+    data = hämta_jordskalv(URL)
+    # Processar jordskalvsdata och grupperar den efter magnitud
+    grouped_df = process_earthquakes(data)
+    # Konverterar den grupperade DataFrame till en lista av dictionaries 
     table = grouped_df.to_dict(orient="records")
+    # simpelt plotly-diagram som visar medeldjupet för skalven
+    fig = px.bar(
+        grouped_df,
+        x="Category",
+        y="Average_depth",
+        color="Category",
+        title="minor <5.0, major >=5.0",
+    )
 
-    return render_template("magnitudes.html", table=table, error=None)
+    graph = fig.to_html(full_html=False)
+    
+    # Renderar magnitudes.html 
+    return render_template("magnitudes.html", table=table, error=None, graph=graph)
+
 
 
 @app.errorhandler(404)

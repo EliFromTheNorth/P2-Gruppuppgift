@@ -27,13 +27,15 @@ def process_earthquakes(stats):
         lambda x: "Major" if x >= 5.0 else "Minor"
     )
 
-   # skapa en ny DataFrame med aggregerade värden
+# skapar en ny DataFrame,beräknar average magnitud och djup
+#samt räknar magnitud för major och minor
     grouped_df = (
-        df.groupby("Category").agg(Count=("Magnitude", "count"),Average_magnitude=("Magnitude", "mean"),
+        df.groupby("Category").agg(Count=("Magnitude", "count"),
+        Average_magnitude=("Magnitude", "mean"),
         Average_depth=("Depth", "mean"))
         .reset_index()
     )
-    # avrunda medelvärdena till två decimaler
+    # avrundar medelvärdena till två decimaler
     grouped_df["Average_magnitude"] = grouped_df["Average_magnitude"].round(2)
     grouped_df["Average_depth"] = grouped_df["Average_depth"].round(2)
 

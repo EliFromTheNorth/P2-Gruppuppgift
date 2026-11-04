@@ -1,5 +1,6 @@
 import requests
 
+
 def hämta_jordskalv(url):
     """Hämtar jordskalvsdata från USGS API och returnerar det som en JSON-struktur."""
 
