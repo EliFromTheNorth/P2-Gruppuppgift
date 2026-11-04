@@ -34,9 +34,9 @@ def magnitude():
     # simpelt plotly-diagram som visar medeldjupet för skalven
     fig = px.bar(
         grouped_df,
-        x="Category",
-        y="Average_depth",
-        color="Category",
+        x="Kategori",
+        y="Genomsnittligt_djup",
+        color="Kategori",
         title="minor <5.0, major >=5.0",
     )
 

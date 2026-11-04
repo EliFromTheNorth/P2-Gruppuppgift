@@ -3,33 +3,33 @@
 
 {% block content %}
 
-<h1 class="mb-4">Earthquakes by category</h1>
+<h1 class="mb-4">Jordskalv magnitud och djup</h1>
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
 
         <thead class="table-dark">
             <tr>
-                <th>Category</th>
-                <th>Number of earthquakes</th>
-                <th>Average magnitude</th>
-                <th>Average depth (km)</th>
+                <th>Kategori</th>
+                <th>Antal jordskalv</th>
+                <th>Genomsnittlig magnitud</th>
+                <th>Genomsnittligt djup (km)</th>
             </tr>
         </thead>
 
         <tbody>
             {% for row in table %}
             <tr>
-                <td>{{ row.Category }}</td>
-                <td>{{ row.Count }}</td>
-                <td>{{ row.Average_magnitude }}</td>
-                <td>{{ row.Average_depth }}</td>
+                <td>{{ row.Kategori }}</td>
+                <td>{{ row.Antal }}</td>
+                <td>{{ row.Genomsnittlig_magnitud }}</td>
+                <td>{{ row.Genomsnittligt_djup }}</td>
             </tr>
             {% endfor %}
         </tbody>
 
     </table>
-    <h2>Earthquake statistics</h2>
+    <h2>Jämförelse i djup(km)</h2>
 
 {{ graph | safe }}
 </div>
