@@ -1,9 +1,7 @@
-# from datetime import UTC, datetime
 from datetime import datetime, timezone
-# from datetime import datetime, timezone
-
 import pandas as pd
 import plotly.express as px
+
 from api import hämta_jordskalv
 
 
@@ -24,7 +22,6 @@ def earthquake_data(url):
         timestamp = e.get("time", "")
         # Konvertera tidsstämpeln till ett läsbart datum i UTC
         event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
-        # event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
         # event_date = datetime.fromtimestamp(timestamp / 1000, tz=UTC)
         table_data.append({"Day": event_date.date(), "Magnitude": e.get("mag", "")})
 
@@ -57,7 +54,7 @@ def summary_table(table):
         ("Högsta dagsgenomsnitt", "AverageMagnitude", max),
         ("Lägsta dagsgenomsnitt", "AverageMagnitude", min),
     ]
-   
+
     summary_table = []
     # Hitta värden och datum för varje rad i sammanfattningen
     for name, column, func in summary_rows:
@@ -66,13 +63,7 @@ def summary_table(table):
         dates = ", ".join(str(date) for date in filtered_data["Day"].values)
         value_format = str(int(value)) if column == "Count" else str(value)
 
-        summary_table.append(
-            {
-                "": name,
-                "Datum": dates,
-                "Värde": value_format
-            }
-        )
+        summary_table.append({"": name, "Datum": dates, "Värde": value_format})
 
     summary_df = pd.DataFrame(summary_table)
     return summary_df

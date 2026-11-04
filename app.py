@@ -1,11 +1,11 @@
-import pandas as pd
-from processing import process_earthquakes
 from datetime import date, timedelta
+
 import plotly.express as px
 from flask import Flask, render_template
 
 from api import hämta_jordskalv
 from map import skapa_karta
+from processing import process_earthquakes
 from timeline import timeline_statistics
 
 app = Flask(__name__)
@@ -23,11 +23,11 @@ def index():
 
 @app.route("/magnitude")
 def magnitude():
-     # Hämtar jordskalvsdata från USGS API
+    # Hämtar jordskalvsdata från USGS API
     data = hämta_jordskalv(URL)
     # Processar jordskalvsdata och grupperar den efter magnitud
     grouped_df = process_earthquakes(data)
-    # Konverterar den grupperade DataFrame till en lista av dictionaries 
+    # Konverterar den grupperade DataFrame till en lista av dictionaries
     table = grouped_df.to_dict(orient="records")
     # simpelt plotly-diagram som visar medeldjupet för skalven
     fig = px.bar(
@@ -39,15 +39,15 @@ def magnitude():
     )
 
     graph = fig.to_html(full_html=False)
-    
-    # Renderar magnitudes.html 
-    return render_template("magnitudes.html", table=table, error=None, graph=graph)
 
+    # Renderar magnitudes.html
+    return render_template("magnitudes.html", table=table, error=None, graph=graph)
 
 
 @app.errorhandler(404)
 def error404(error):
     return render_template("error404.html"), 404
+
 
 @app.route("/timeline")
 def timeline():
@@ -60,11 +60,11 @@ def timeline():
         return render_template(
             "timeline.html",
             fel=html,
-            html = None, 
-            html_2 = None,
-            chart_1 = None,
-            chart_2 = None,
-            chart_3 = None
+            html=None,
+            html_2=None,
+            chart_1=None,
+            chart_2=None,
+            chart_3=None,
         ), 503
 
     # Om allt gick bra, skicka data och diagram till mallen
@@ -83,11 +83,7 @@ def visa_karta():
     karta, fel, statuskod = skapa_karta(URL)
 
     if fel:
-        return render_template(
-            "map.html",
-            karta=None,
-            fel=fel
-        ),statuskod
+        return render_template("map.html", karta=None, fel=fel), statuskod
 
     return render_template("map.html", karta=karta)
 
