@@ -14,7 +14,7 @@ def test_map_visas():
     }
 
     with (
-        patch("app.hämta_jordskalv", return_value=exempeldata),
+        patch("map.hämta_jordskalv", return_value=exempeldata),
         app.test_client() as klient,
     ):
         svar = klient.get("/map")
