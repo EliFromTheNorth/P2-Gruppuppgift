@@ -2,11 +2,13 @@ import pandas as pd
 from processing import process_earthquakes
 import requests
 from datetime import timezone, date, datetime, timedelta
-import plotly.express as px
+# import plotly.express as px
 from flask import Flask, render_template
 from timeline import timeline_statistics
 from bearbetning import skapa_dataframe
-from api import hämta_jordskalv
+# from api import hämta_jordskalv
+from map import skapa_karta
+
 
 app = Flask(__name__)
 
@@ -63,65 +65,16 @@ def timeline():
 
 @app.route("/map")
 def visa_karta():
-    data = hämta_jordskalv(URL)
+    karta, fel, statuskod = skapa_karta(URL)
 
-    # ORIGINAL:
-    # if data is None:
-    #     return render_template(
-    #         "map.html",
-    #         karta=None,
-    #         fel="Kunde inte hämta jordskalvsdata just nu.",
-    #     ), 503
-
-    if type(data) == str:
+    if fel:
         return render_template(
             "map.html",
             karta=None,
-            fel=data,
-        ), 503
+            fel=fel
+        ),statuskod
 
-    df = skapa_dataframe(data)
-
-    if df.empty:
-        return render_template(
-            "map.html",
-            karta=None,
-            fel="Inga jordskalv hittades för det valda urvalet.",
-        )
-
-    figur = px.scatter_geo(
-        df,
-        lat="latitude",
-        lon="longitude",
-        hover_name="place",
-        color="mag",
-        
-        hover_data={
-            "mag": True,
-            "depth": True,
-            "time": True,
-            "latitude": False,
-            "longitude": False,
-        },
-        
-        labels={
-            "mag": "Magnitud",
-            "depth": "Djup (km)",
-            "time": "Tid (UTC)",
-        },
-
-        title=None,
-        projection="natural earth",
-        height=750,
-    )
-
-    karta_html = figur.to_html(
-        full_html=False,
-        include_plotlyjs="cdn",
-    )
-
-    return render_template("map.html", karta=karta_html)
-
+    return render_template("map.html", karta=karta)
 
 if __name__ == "__main__":
     app.run(debug=True)

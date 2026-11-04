@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 import plotly.express as px
-import requests
+# import requests
 from api import hämta_jordskalv
 
 
