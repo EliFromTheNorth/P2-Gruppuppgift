@@ -14,7 +14,7 @@ fake_earthquake_data = {
 }
 
 
-@patch("timeline.requests.get")
+@patch("api.requests.get")
 def test_earthquake_data(mock_get):
     mock_get.return_value = Mock(
         status_code=200,
