@@ -23,7 +23,7 @@ def test_map_visas():
         assert "Jordskalv världen över" in svar.get_data(as_text=True)
 
 
-@patch("app.hämta_jordskalv", return_value=None)
+@patch("map.hämta_jordskalv", return_value=None)
 def test_map_api_fel(mock_hämta):
     with app.test_client() as klient:
         svar = klient.get("/map")
