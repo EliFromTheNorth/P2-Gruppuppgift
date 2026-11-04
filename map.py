@@ -1,14 +1,11 @@
 import plotly.express as px
 
-from bearbetning import skapa_dataframe
 from api import hämta_jordskalv
+from bearbetning import skapa_dataframe
 
 
-def skapa_karta(url):
-    data = hämta_jordskalv(url)
-
-    if isinstance(data, str):
-        return None, data, 503  # Returnerar felmeddelandet och statuskod 503
+def skapa_karta(data):
+    data = hämta_jordskalv(data)
 
     if data is None:
         return None, "Kunde inte hämta jordskalvsdata just nu.", 503

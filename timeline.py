@@ -1,3 +1,4 @@
+# from datetime import UTC, datetime
 from datetime import datetime, timezone
 
 import pandas as pd
@@ -18,8 +19,9 @@ def earthquake_data(url):
         e = entry["properties"]
         timestamp = e.get("time", "")
         event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
+        # event_date = datetime.fromtimestamp(timestamp / 1000, tz=UTC)
         table_data.append({"Day": event_date.date(), "Magnitude": e.get("mag", "")})
-   
+
     df = pd.DataFrame(table_data)
 
     table = (
@@ -32,8 +34,9 @@ def earthquake_data(url):
         .reset_index()
         .round(1)
     )
-    table["Day"] = pd.to_datetime(table["Day"]).dt.strftime('%d %b')
+    table["Day"] = pd.to_datetime(table["Day"]).dt.strftime("%d %b")
     return table
+
 
 def summary_table(table):
     summary_rows = [
@@ -63,6 +66,7 @@ def summary_table(table):
     summary_df = pd.DataFrame(summary_table)
     return summary_df
 
+
 def charts(table):
     chart_configs = [
         ("Count", "#5c1360", "Antal"),
@@ -77,12 +81,13 @@ def charts(table):
             x="Day",
             y=column,
             color_discrete_sequence=[color],
-            labels={"Day": "Datum", column: label}
+            labels={"Day": "Datum", column: label},
         )
         chart = fig.to_html(full_html=False, include_plotlyjs="cdn")
         charts_list.append(chart)
-    
+
     return charts_list
+
 
 def timeline_statistics(url):
     table = earthquake_data(url)
@@ -90,15 +95,16 @@ def timeline_statistics(url):
     if type(table) == str:
         return table, "", "", "", ""
 
-    html_2 = (
-        summary_table(table)
-        .to_html(classes="table table-striped", index=False)
-    )
-    chart_1, chart_2, chart_3 = charts(table) 
+    html_2 = summary_table(table).to_html(classes="table table-striped", index=False)
+    chart_1, chart_2, chart_3 = charts(table)
 
-    html = (
-        table.rename(columns={"Day": "Datum", "Count": "Antal", "AverageMagnitude": "Genomsnittlig magnitud", "MaxMagnitude": "Maximal magnitud"})
-        .to_html(classes="table table-striped", index=False)
-    )
+    html = table.rename(
+        columns={
+            "Day": "Datum",
+            "Count": "Antal",
+            "AverageMagnitude": "Genomsnittlig magnitud",
+            "MaxMagnitude": "Maximal magnitud",
+        }
+    ).to_html(classes="table table-striped", index=False)
 
     return html, html_2, chart_1, chart_2, chart_3

@@ -1,5 +1,7 @@
-import pandas as pd
 from datetime import datetime
+
+import pandas as pd
+
 
 def översätt_plats(plats):
     riktningar = {
@@ -11,8 +13,7 @@ def översätt_plats(plats):
         "northwest of the": "nordväst om",
         "southeast of the": "sydost om",
         "southwest of the": "sydväst om",
-
-        #USGS förkortningar
+        # USGS förkortningar
         " NNE of ": " nordost om ",
         " NE of ": " nordost om ",
         " ENE of ": " nordost om ",
@@ -35,6 +36,7 @@ def översätt_plats(plats):
         plats = plats.replace(engelska, svenska)
 
     return plats
+
 
 def skapa_dataframe(data):
     """Skapar en DataFrame från JSON-data som innehåller information om jordskalv."""

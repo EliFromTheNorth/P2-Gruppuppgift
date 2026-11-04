@@ -1,14 +1,12 @@
 import pandas as pd
 from processing import process_earthquakes
-import requests
-from datetime import timezone, date, datetime, timedelta
-# import plotly.express as px
+from datetime import date, timedelta
+import plotly.express as px
 from flask import Flask, render_template
-from timeline import timeline_statistics
-from bearbetning import skapa_dataframe
-# from api import hämta_jordskalv
-from map import skapa_karta
 
+from api import hämta_jordskalv
+from map import skapa_karta
+from timeline import timeline_statistics
 
 app = Flask(__name__)
 
@@ -20,19 +18,32 @@ URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttim
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/magnitude', methods=['GET'])
+@app.route("/magnitude")
 def magnitude():
- req = requests.get(URL, timeout=10)
- data = req.json()
+     # Hämtar jordskalvsdata från USGS API
+    data = hämta_jordskalv(URL)
+    # Processar jordskalvsdata och grupperar den efter magnitud
+    grouped_df = process_earthquakes(data)
+    # Konverterar den grupperade DataFrame till en lista av dictionaries 
+    table = grouped_df.to_dict(orient="records")
+    # simpelt plotly-diagram som visar medeldjupet för skalven
+    fig = px.bar(
+        grouped_df,
+        x="Kategori",
+        y="Genomsnittligt_djup",
+        color="Kategori",
+        title="minor <5.0, major >=5.0",
+    )
 
- grouped_df = process_earthquakes(data)
+    graph = fig.to_html(full_html=False)
+    
+    # Renderar magnitudes.html 
+    return render_template("magnitudes.html", table=table, error=None, graph=graph)
 
- table = grouped_df.to_dict(orient="records")
 
- return render_template("magnitudes.html",table=table)
 
 @app.errorhandler(404)
 def error404(error):
@@ -62,6 +73,7 @@ def timeline():
         diagram_3=chart_3,
     )
 
+
 @app.route("/map")
 def visa_karta():
     karta, fel, statuskod = skapa_karta(URL)
@@ -74,6 +86,7 @@ def visa_karta():
         ),statuskod
 
     return render_template("map.html", karta=karta)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

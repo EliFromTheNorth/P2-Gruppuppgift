@@ -1,5 +1,6 @@
 import requests
 
+
 def hämta_jordskalv(url):
     # Hämtar jordskalvsdata från USGS API och returnerar det som en JSON-struktur
 
@@ -15,12 +16,6 @@ def hämta_jordskalv(url):
         svar = requests.get(url, timeout=10)
         svar.raise_for_status()  # Kontrollerar om servern svarade med ett HTTP-fel
         return svar.json()
-
-    
-    ### DELETE BEFORE MERGE:
-    ## original:
-    # except (requests.exceptions.RequestException, ValueError):
-    #   return None
 
     except requests.Timeout:
         return "Servern svarade inte i tid (Timeout)"
