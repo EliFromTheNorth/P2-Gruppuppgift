@@ -49,7 +49,7 @@ def skapa_dataframe(data):
         egenskaper = skalv.get("properties") or {}
         tid = egenskaper.get("time")
         if tid:
-            tid = datetime.datetime.fromtimestamp(tid / 1000).strftime("%Y-%m-%d %H:%M")
+            tid = datetime.fromtimestamp(tid / 1000).strftime("%Y-%m-%d %H:%M")
         geometri = skalv.get("geometry") or {}
         koordinater = geometri.get("coordinates") or []
 
