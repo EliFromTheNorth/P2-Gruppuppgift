@@ -51,8 +51,11 @@ def error404(error):
 
 @app.route("/timeline")
 def timeline():
+    """Route för tidslinjesidan som visar statistik och diagram över jordbävningar."""
+    # Hämtar bearbetad HTML-data och diagram från timeline-modulen
     html, html_2, chart_1, chart_2, chart_3 = timeline_statistics(URL)
 
+    # Om funktionen returnerade ett felmeddelande istället för en tabell
     if "<table" not in html:
         return render_template(
             "timeline.html",
@@ -63,7 +66,8 @@ def timeline():
             chart_2 = None,
             chart_3 = None
         ), 503
-    
+
+    # Om allt gick bra, skicka data och diagram till mallen
     return render_template(
         "timeline.html",
         timeline=html,

@@ -2,10 +2,12 @@
 
 {% block content %}
 
+{# CSS-hack för att fixa så att Plotly-diagrammen laddas korrekt i Bootstrap-flikar #}
 <style>.tab-pane:not(.active) { display: block !important; height: 0; overflow: hidden; }</style>
 
 <h1 class="display-5 mx-4 border-bottom pb-2">Tidslinje över jordbävningar</h1>
 
+{# Kontrollera om det finns ett felmeddelande att visa #}
 {% if fel %}
     <div class="alert alert-warning mx-4 mt-4">
         {{ fel }}
@@ -17,6 +19,7 @@
         {{ summary | safe }}
     </div>
 
+    {# Flikar för att växla mellan de olika diagrammen #}
     <div class="my-4">
         <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -43,5 +46,6 @@
 
 {% endif %}
 
+{# Bootstrap JavaScript för funktionalitet som flikar #}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
