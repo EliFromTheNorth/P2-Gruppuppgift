@@ -11,9 +11,9 @@ def hämta_jordskalv(url):
         # svar = requests.get(url, timeout=0.00000000005) #TEST - FEL: Kunde inte nå servern. Kontrollera din internetanslutning.
         # svar = requests.get("https://httpbin.org/status/401") #TEST - FEL: HTTP-fel! Felkod: {e.response.status_code}
         # svar = requests.get("https://httpbin.org/html") #TEST - FEL: Kunde inte tolka data från servern (ogiltig JSON).
-        svar = requests.get("invalid-adress-12345") #TEST - FEL: return "Ett nätverksfel uppstod vid hämtning av data."
+        # svar = requests.get("invalid-adress-12345") #TEST - FEL: return "Ett nätverksfel uppstod vid hämtning av data."
         
-        # svar = requests.get(url, timeout=10)
+        svar = requests.get(url, timeout=10)
         svar.raise_for_status()  # Kontrollerar om servern svarade med ett HTTP-fel
         return svar.json()
 
