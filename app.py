@@ -25,6 +25,9 @@ def index():
 def magnitude():
     # Hämtar jordskalvsdata från USGS API
     data = hämta_jordskalv(URL)
+    # Returnerar felmeddelandet och statuskod 503
+    if isinstance(data, str):
+        return render_template("magnitudes.html", table=None, fel=data, graph=None), 503  
     # Processar jordskalvsdata och grupperar den efter magnitud
     grouped_df = process_earthquakes(data)
     # Konverterar den grupperade DataFrame till en lista av dictionaries

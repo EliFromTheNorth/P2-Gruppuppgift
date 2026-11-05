@@ -5,6 +5,13 @@
 
 <h1 class="display-5 mx-4 border-bottom pb-2">Jordskalv magnitud och djup</h1>
 
+{# Kontrollera om det finns ett felmeddelande att visa #}
+{% if fel %}
+    <div class="alert alert-warning mx-4 mt-4">
+        {{ fel }}
+    </div>
+    
+{% else %}
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
 
@@ -33,5 +40,7 @@
 
 {{ graph | safe }}
 </div>
+
+{% endif %}
 
 {% endblock %}
