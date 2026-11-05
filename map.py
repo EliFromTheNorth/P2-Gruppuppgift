@@ -9,7 +9,7 @@ def skapa_karta(data):
 
     if isinstance(data, str):
         return None, data, 503  # Returnerar felmeddelandet och statuskod 503
-    
+
     if data is None:
         return None, "Kunde inte hämta jordskalvsdata just nu.", 503
 

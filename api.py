@@ -5,7 +5,6 @@ def hämta_jordskalv(url):
     """Hämtar jordskalvsdata från USGS API och returnerar det som en JSON-struktur"""
 
     try:
-        ### DELETE BEFORE MERGE:
         ### Tests:
         # svar = requests.get(url, timeout=(2, 0.000000000000010)) #TEST - FEL: "Servern svarade inte i tid (Timeout)"
         # svar = requests.get(url, timeout=0.00000000005) #TEST - FEL: Kunde inte nå servern. Kontrollera din internetanslutning.
