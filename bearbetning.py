@@ -4,6 +4,9 @@ import pandas as pd
 
 
 def översätt_plats(plats):
+    """Översätter engelska geografiska riktningar till svenska."""
+
+    #Dictionary med engelska riktningar och deras svenska översättningar.
     riktningar = {
         "north of the": "norr om",
         "south of the": "söder om",
@@ -32,6 +35,7 @@ def översätt_plats(plats):
         " N of ": " norr om ",
     }
 
+    #Gå igenom alla rikningar och ersätt engelska uttryck med svenska.
     for engelska, svenska in riktningar.items():
         plats = plats.replace(engelska, svenska)
 
@@ -40,22 +44,33 @@ def översätt_plats(plats):
 
 def skapa_dataframe(data):
     """Skapar en DataFrame från JSON-data som innehåller information om jordskalv."""
+
+    #Bestämmer vilka kolumner som DataFrame ska innehålla.
     kolumner = ["place", "mag", "longitude", "latitude", "depth", "time"]
+
+    #Lista där informationen om varje jordskalv samlas.
     rader = []
 
+    #Hämtar jordskalvens features från api svaret.
     features = (data or {}).get("features") or []
 
     for skalv in features:
+        #Hämtar information om jordskalvet.
         egenskaper = skalv.get("properties") or {}
+
+        #Omvandlar tiden från millisekunder till datum och tid.
         tid = egenskaper.get("time")
         if tid:
             tid = datetime.fromtimestamp(tid / 1000).strftime("%Y-%m-%d %H:%M")
+
+        #Hämtar geografiska koordinater.
         geometri = skalv.get("geometry") or {}
         koordinater = geometri.get("coordinates") or []
 
         if len(koordinater) < 3:
-            continue  # Hoppa över om det inte finns tillräckligt med koordinater
+            continue  #Hoppa över om det inte finns tillräckligt med koordinater
 
+        #Lägger till information i listan som en dictionary.
         rader.append(
             {
                 "place": översätt_plats(egenskaper.get("place") or "Okänd plats"),
@@ -67,4 +82,5 @@ def skapa_dataframe(data):
             }
         )
 
+    #Skapar och returnerar DataFrame med de angivna kolumnerna.
     return pd.DataFrame(rader, columns=kolumner)
