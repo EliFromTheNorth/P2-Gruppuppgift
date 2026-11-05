@@ -7,6 +7,9 @@ from bearbetning import skapa_dataframe
 def skapa_karta(data):
     data = hämta_jordskalv(data)
 
+    if isinstance(data, str):
+        return None, data, 503  # Returnerar felmeddelandet och statuskod 503
+    
     if data is None:
         return None, "Kunde inte hämta jordskalvsdata just nu.", 503
 
