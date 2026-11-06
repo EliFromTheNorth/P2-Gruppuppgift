@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone # noqa: I001
 
 import pandas as pd
 
@@ -61,14 +61,14 @@ def skapa_dataframe(data):
         # Omvandlar tiden från millisekunder till datum och tid.
         tid = egenskaper.get("time")
         if tid:
-            tid = datetime.fromtimestamp(tid / 1000, tz=UTC).strftime("%Y-%m-%d %H:%M")
+            tid = datetime.fromtimestamp(tid / 1000, tz=timezone.utc).strftime("%Y-%m-%d %H:%M") # noqa: UP017
 
         # Hämtar geografiska koordinater.
         geometri = skalv.get("geometry") or {}
         koordinater = geometri.get("coordinates") or []
 
         if len(koordinater) < 3:
-            continue  #Hoppa över om det inte finns tillräckligt med koordinater
+            continue  # Hoppa över om det inte finns tillräckligt med koordinater
 
         # Lägger till information i listan som en dictionary.
         rader.append(

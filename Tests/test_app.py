@@ -37,7 +37,6 @@ def test_map_api_fel(mock_hämta):
 
     # Skapar en testklient för att kunna skicka en förfrågan till Flask.
     with app.test_client() as klient:
-        
         # Skickar en Get förfrågan till kartans route.
         svar = klient.get("/map")
 

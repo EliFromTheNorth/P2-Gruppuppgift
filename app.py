@@ -90,11 +90,7 @@ def visa_karta():
 
     # Om ett felmeddelande finns visas det på kartans sida.
     if fel:
-        return render_template(
-            "map.html",
-            karta=None,
-            fel=fel
-        ), statuskod
+        return render_template("map.html", karta=None, fel=fel), statuskod
 
     # Om allt fungerar skickas kartans html till map.html.
     return render_template("map.html", karta=karta)

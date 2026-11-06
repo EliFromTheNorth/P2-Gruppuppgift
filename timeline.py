@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone # noqa: I001
 
 import pandas as pd
 import plotly.express as px
@@ -22,7 +22,7 @@ def earthquake_data(url):
         e = entry["properties"]
         timestamp = e.get("time", "")
         # Konvertera tidsstämpeln till ett läsbart datum i UTC
-        event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
+        event_date = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc) # noqa: UP017        
         table_data.append({"Day": event_date.date(), "Magnitude": e.get("mag", "")})
 
     df = pd.DataFrame(table_data)

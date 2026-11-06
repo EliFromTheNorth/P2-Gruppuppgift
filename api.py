@@ -14,7 +14,7 @@ def hämta_jordskalv(url):
 
         svar = requests.get(url, timeout=10)
         svar.raise_for_status()  # Kontrollerar om servern svarade med ett HTTP-fel
-        return svar.json() # Omvandlar json svaret till python data.
+        return svar.json()  # Omvandlar json svaret till python data.
 
     except requests.Timeout:
         return "Servern svarade inte i tid (Timeout)"
