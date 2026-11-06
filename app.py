@@ -85,10 +85,10 @@ def timeline():
 def visa_karta():
     """Visar den geografiska kartan över jordskalv."""
 
-    #Skickar api addressen till kartfunktionen och tar emot dess resultat.
+    # Skickar api addressen till kartfunktionen och tar emot dess resultat.
     karta, fel, statuskod = skapa_karta(URL)
 
-    #Om ett felmeddelande finns visas det på kartans sida.
+    # Om ett felmeddelande finns visas det på kartans sida.
     if fel:
         return render_template(
             "map.html",
@@ -96,7 +96,7 @@ def visa_karta():
             fel=fel
         ), statuskod
 
-    #Om allt fungerar skickas kartans html till map.html.
+    # Om allt fungerar skickas kartans html till map.html.
     return render_template("map.html", karta=karta)
 
 
