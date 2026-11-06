@@ -4,7 +4,7 @@ from bearbetning import skapa_dataframe
 def test_skapa_dataframe():
     """Kontrollerar att JSON-data omvandlas korrekt till en DataFrame."""
 
-    #Skapar exempeldata som efterliknar ett svar från USGS API.
+    # Skapar exempeldata som efterliknar ett svar från USGS API.
     data = {
         "features": [
             {
@@ -14,23 +14,23 @@ def test_skapa_dataframe():
         ]
     }
 
-    #Skapar en DataFrame från den simulerade API-datan.
+    # Skapar en DataFrame från den simulerade API-datan.
     df = skapa_dataframe(data)
 
-    #Kontrollerar att DataFrame innehåller ett jordskalv.
+    # Kontrollerar att DataFrame innehåller ett jordskalv.
     assert len(df) == 1
 
-    #Kontrollerar att platsen har hämtats korrekt.
+    # Kontrollerar att platsen har hämtats korrekt.
     assert df.iloc[0]["place"] == "10 km north of example city"
 
-    #Kontrollerar att magnituden har hämtats korrekt.
+    # Kontrollerar att magnituden har hämtats korrekt.
     assert df.iloc[0]["mag"] == 4.5
 
-    #Kontrollerar att longituden har hämtats korrekt.
+    # Kontrollerar att longituden har hämtats korrekt.
     assert df.iloc[0]["longitude"] == 18.0
 
-    #Kontrollerar att latituden har hämtats korrekt.
+    # Kontrollerar att latituden har hämtats korrekt.
     assert df.iloc[0]["latitude"] == 59.0
 
-    #Kontrollerar att djupet har hämtats korrekt.
+    # Kontrollerar att djupet har hämtats korrekt.
     assert df.iloc[0]["depth"] == 12.0
