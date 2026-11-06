@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pandas as pd
 
@@ -61,7 +61,7 @@ def skapa_dataframe(data):
         #Omvandlar tiden från millisekunder till datum och tid.
         tid = egenskaper.get("time")
         if tid:
-            tid = datetime.fromtimestamp(tid / 1000, tz=timezone.utc).strftime("%Y-%m-%d %H:%M")
+            tid = datetime.fromtimestamp(tid / 1000, tz=UTC).strftime("%Y-%m-%d %H:%M")
 
         #Hämtar geografiska koordinater.
         geometri = skalv.get("geometry") or {}
