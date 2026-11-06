@@ -2,15 +2,15 @@
 
 {% block content %}
 
-{#Rubriker som beskriver vad som kartan visar.}
+{#Rubriker som beskriver vad som kartan visar.#}
 <h1 class="text-center display-5 mx-4 border-bottom pb-2">Jordskalv världen över</h1>
 <h2 class="text-center">De senaste 30 dagarna</h2>
 
-{#Visa felmdeddelande om kartan inte kunde hämtas.}
+{#Visa felmdeddelande om kartan inte kunde hämtas.#}
 {% if fel %}
     <div class="alert alert-warning"> {{ fel }} </div>
 
-{#Visa kartan om det inte finns något fel.}
+{#Visa kartan om det inte finns något fel.#}
 {% elif karta %}
     <div class="w-100">
         {{ karta | safe }}
