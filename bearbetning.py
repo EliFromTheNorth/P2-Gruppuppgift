@@ -1,5 +1,5 @@
 import pandas as pd
-from datetime import datetime
+from datetime import UTC, datetime
 
 def översätt_plats(plats):
     riktningar = {
@@ -47,7 +47,7 @@ def skapa_dataframe(data):
         egenskaper = skalv.get("properties") or {}
         tid = egenskaper.get("time")
         if tid:
-            tid = datetime.fromtimestamp(tid / 1000).strftime("%Y-%m-%d %H:%M")
+            tid = datetime.fromtimestamp(tid / 1000, tz=UTC).strftime("%Y-%m-%d %H:%M")
         geometri = skalv.get("geometry") or {}
         koordinater = geometri.get("coordinates") or []
 
